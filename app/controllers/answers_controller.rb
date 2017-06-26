@@ -2,21 +2,16 @@ class AnswersController < ApplicationController
 
   before_action :set_question, only: [:create]
 
-  def new
-    @answer = Answer.new
-  end
-
-  def show
+  def answer
     @answer = Answer.find(params[:id])
   end
 
   def create
     @answer = @question.answers.new(answer_params)
-
     if @answer.save
-      redirect_to @answer
+      redirect_to @question, status: 302
     else
-      render :new
+      redirect_to @question, status: 304
     end
   end
 
