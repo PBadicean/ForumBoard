@@ -11,7 +11,7 @@ feature 'User tries to log out', '
   scenario 'Authenticated user tries to sign out' do
     sign_in(user)
 
-    click_on 'Log out'
+    click_on 'Выйти'
 
     expect(current_path).to eq root_path
     expect(page).to have_content 'Signed out successfully.'
@@ -20,6 +20,6 @@ feature 'User tries to log out', '
   scenario 'Guest tries to sign out' do
     visit root_path
 
-    expect(page).to have_no_link 'Log out'
+    expect(page).to have_no_link 'Выйти'
   end
 end
