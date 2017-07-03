@@ -29,4 +29,9 @@ feature 'User-author can to delete his question', '
     expect(page).to have_no_link('Удалить')
   end
 
+  scenario 'Author can to delete answer' do
+    visit question_path(question)
+
+    expect(page).to have_no_link('Удалить')
+  end
 end

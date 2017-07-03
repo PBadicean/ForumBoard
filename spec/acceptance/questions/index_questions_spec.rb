@@ -11,13 +11,13 @@ feature 'Human can to see all questions', '
     visit root_path
 
     expect(current_path).to eq root_path
-    expect(page).to have_content 'Все вопрсосы'
+    expect(page).to have_content 'Все вопросы'
   end
 
   scenario 'Guest tries to see all questions' do
     visit root_path
 
     expect(current_path).to eq root_path
-    expect(page).to have_content 'Все вопрсосы'
+    expect(page).to have_content 'Все вопросы'
   end
 end

@@ -6,6 +6,7 @@ RSpec.describe AnswersController, type: :controller do
   let(:question) { create(:question) }
 
   describe 'POST #create' do
+    sign_in_user
 
     context 'with valid attributes' do
       it 'saves the new answer in the database' do
@@ -16,7 +17,7 @@ RSpec.describe AnswersController, type: :controller do
 
       it 'redirects question show view' do
         post :create, params: { answer: attributes_for(:answer), question_id: question}
-        expect(response).to redirect_to question_path(question)
+        expect(response).to redirect_to question_path(assigns(:question))
       end
     end
 
@@ -28,10 +29,38 @@ RSpec.describe AnswersController, type: :controller do
       end
 
       it 're-redirects question show view' do
-        post :create, params: { answer: attributes_for(:invalid_answer), question_id: question }
+        post :create, params: { answer: attributes_for(:invalid_answer), question_id: question}
         expect(response).to render_template 'questions/show'
       end
     end
   end
 
+  describe 'DELETE #destroy' do
+    sign_in_user
+    let(:answer2) { create(:answer, user: @user) }
+
+    context 'Author tries to delete his answer' do
+      it 'deletes the @answer' do
+        answer2
+        expect { delete :destroy, params: { id: answer2 } }.to change(Answer, :count).by(-1)
+      end
+
+      it 'redirects to question of answer' do
+        delete :destroy, params: { id: answer2 }
+        expect(response).to redirect_to question_path(assigns(:question))
+      end
+    end
+
+    context 'Guest tries to delete  answer' do
+      it 'does not delete the @answer' do
+        answer
+        expect { delete :destroy, params: { id: answer } }.to_not change(Answer, :count)
+      end
+
+      it 'render question of answer view' do
+        delete :destroy, params: { id: answer }
+        expect(response).to render_template 'questions/show'
+      end
+    end
+  end
 end

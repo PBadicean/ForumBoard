@@ -25,6 +25,10 @@ RSpec.describe QuestionsController, type: :controller do
       expect(assigns(:question)).to eq question
     end
 
+    it 'assigns a new Answer to @answer' do
+      expect(assigns(:answer)).to be_a_new(Answer)
+    end
+
     it 'renders show view' do
       expect(response).to render_template :show
     end
@@ -72,11 +76,11 @@ RSpec.describe QuestionsController, type: :controller do
 
   describe 'DELETE #destroy'do
     sign_in_user
-    before{ question }
-    let!(:question2) { create(:question, user: @user) }
+    let(:question2) { create(:question, user: @user) }
 
     context 'Current user is author' do
       it 'deletes question' do
+        question2
         expect { delete :destroy, params: { id: question2 } }.to change(Question, :count).by(-1)
       end
 
@@ -88,6 +92,7 @@ RSpec.describe QuestionsController, type: :controller do
 
     context 'Current user is not author' do
       it 'deletes question' do
+        question
         expect { delete :destroy, params: { id: question } }.to_not change(Question, :count)
       end
 
@@ -97,5 +102,4 @@ RSpec.describe QuestionsController, type: :controller do
       end
     end
   end
-
 end
