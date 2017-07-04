@@ -13,6 +13,15 @@
     <p class="notice"><%= notice %></p>
     <p class="alert"><%= alert %></p>
     <%= yield %>
-
+    <br>
+      <% if user_signed_in? %>
+        <%= link_to 'Выйти', destroy_user_session_path, method: :delete %>
+      <% else %>
+        <%=  link_to 'Войти', new_user_session_path %>
+      <% end %>
+      <br>
+      <% unless current_page?(root_path)%>
+      <%= link_to 'Назад', root_path %>
+      <% end %>
   </body>
 </html>

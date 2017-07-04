@@ -11,25 +11,21 @@ feature 'User-author can to delete his question', '
 
   scenario 'Author can to delete his question' do
     sign_in(author)
-
     visit question_path(question)
-
     click_on 'Удалить'
 
     expect(page).to have_content 'Ваш вопрос успешно удален'
     expect(current_path).to eq questions_path
-
   end
 
   scenario 'Non author wants to delete question' do
     sign_in(user)
-
     visit question_path(question)
 
     expect(page).to have_no_link('Удалить')
   end
 
-  scenario 'Author can to delete answer' do
+  scenario 'Guest wants to delete answer' do
     visit question_path(question)
 
     expect(page).to have_no_link('Удалить')

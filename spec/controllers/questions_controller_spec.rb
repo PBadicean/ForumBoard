@@ -2,8 +2,6 @@ require 'rails_helper'
 
 RSpec.describe QuestionsController, type: :controller do
 
-  let(:question) { create(:question) }
-
   describe 'GET #index' do
     let(:questions) { create_list(:question, 2) }
 
@@ -19,6 +17,8 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'GET #show' do
+    let(:question) { create(:question) }
+
     before { get :show, params: { id: question } }
 
     it 'assigns the requested question to @question'do
@@ -49,55 +49,67 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'POST #create' do
-    sign_in_user
+    context 'Authenticated user can to create' do
+      sign_in_user
+      context 'with valid attributes' do
+        it 'saves the new question in the database' do
+          expect { post :create, params: { question: attributes_for(:question) } }.to change(Question, :count).by(1)
+        end
 
-    context 'with valid attributes' do
-      it 'saves the new question in the database' do
-        expect { post :create, params: { question: attributes_for(:question) } }.to change(Question, :count).by(1)
+        it 'redirects to show view' do
+          post :create, params: { question: attributes_for(:question) }
+          expect(response).to redirect_to question_path(assigns(:question))
+        end
       end
 
-      it 'redirects to show view' do
-        post :create, params: { question: attributes_for(:question) }
-        expect(response).to redirect_to question_path(assigns(:question))
+      context 'with invalid attributes' do
+        it 'does not save the question' do
+          expect { post :create, params: { question: attributes_for(:invalid_question) } }.to_not change(Question, :count)
+        end
+
+        it 're-redirects new view' do
+          post :create, params: { question: attributes_for(:invalid_question) }
+          expect(response).to render_template :new
+        end
       end
     end
 
-    context 'with invalid attributes' do
-      it 'does not save the question' do
-        expect { post :create, params: { question: attributes_for(:invalid_question) } }.to_not change(Question, :count)
-      end
-
-      it 're-redirects new view' do
-        post :create, params: { question: attributes_for(:invalid_question) }
-        expect(response).to render_template :new
+    context 'Non-Authenticated user tries to create' do
+      context 'with valid attributes' do
+        it 'do not saves the new question in the database' do
+          expect { post :create, params: { question: attributes_for(:question) } }.to_not change(Question, :count)
+        end
       end
     end
   end
 
   describe 'DELETE #destroy'do
     sign_in_user
-    let(:question2) { create(:question, user: @user) }
+    let(:question) { create(:question, user: @user) }
 
     context 'Current user is author' do
       it 'deletes question' do
-        question2
-        expect { delete :destroy, params: { id: question2 } }.to change(Question, :count).by(-1)
+        question
+        expect { delete :destroy, params: { id: question } }.to change(Question, :count).by(-1)
       end
 
       it 'redirect to index view' do
-        delete :destroy, params: { id: question2 }
+        delete :destroy, params: { id: question }
         expect(response).to redirect_to questions_path
       end
     end
 
     context 'Current user is not author' do
+      let(:another_user) { create(:user) }
+      let(:another_question) { create(:question, user: another_user) }
+
       it 'deletes question' do
-        question
-        expect { delete :destroy, params: { id: question } }.to_not change(Question, :count)
+        another_question
+        expect { delete :destroy, params: { id: another_question } }.to_not change(Question, :count)
       end
 
       it 'redirect to index view' do
-        delete :destroy, params: { id: question }
+        delete :destroy, params: { id: another_question }
         expect(response).to render_template :show
       end
     end

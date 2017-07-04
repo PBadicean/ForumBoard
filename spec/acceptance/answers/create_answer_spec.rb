@@ -11,12 +11,10 @@ feature 'Create answer', '
 
   scenario 'Authenticated user creates answer'do
     sign_in(user)
-
     visit question_path(question)
 
     fill_in 'Body', with: 'труляля'
     click_on 'ответить'
-    save_and_open_page
 
     expect(page).to have_content 'Ваш ответ успешно добален'
     expect(current_path).to eq question_path(question)
@@ -25,9 +23,6 @@ feature 'Create answer', '
   scenario 'Non-Authenticated user tries to create answer' do
     visit question_path(question)
 
-    fill_in 'Body', with: 'труляля'
-    click_on 'ответить'
-
-    expect(page).to have_content 'You need to sign in or sign up before continuing.'
+    expect(page).to have_no_link 'ответить'
   end
 end
