@@ -56,6 +56,11 @@ RSpec.describe QuestionsController, type: :controller do
           expect { post :create, params: { question: attributes_for(:question) } }.to change(Question, :count).by(1)
         end
 
+        it 'Answer by current user saved' do
+          expect { post :create, params: { question: attributes_for(:question),
+                                         } }.to change(@user.questions, :count).by(1)
+        end
+
         it 'redirects to show view' do
           post :create, params: { question: attributes_for(:question) }
           expect(response).to redirect_to question_path(assigns(:question))
@@ -75,10 +80,8 @@ RSpec.describe QuestionsController, type: :controller do
     end
 
     context 'Non-Authenticated user tries to create' do
-      context 'with valid attributes' do
-        it 'do not saves the new question in the database' do
-          expect { post :create, params: { question: attributes_for(:question) } }.to_not change(Question, :count)
-        end
+      it 'do not saves the new question in the database' do
+        expect { post :create, params: { question: attributes_for(:question) } }.to_not change(Question, :count)
       end
     end
   end
@@ -86,8 +89,9 @@ RSpec.describe QuestionsController, type: :controller do
   describe 'DELETE #destroy'do
     sign_in_user
     let(:question) { create(:question, user: @user) }
+    let(:other_user_question) { create(:question) }
 
-    context 'Current user is author' do
+    context 'own question' do
       it 'deletes question' do
         question
         expect { delete :destroy, params: { id: question } }.to change(Question, :count).by(-1)
@@ -99,17 +103,14 @@ RSpec.describe QuestionsController, type: :controller do
       end
     end
 
-    context 'Current user is not author' do
-      let(:another_user) { create(:user) }
-      let(:another_question) { create(:question, user: another_user) }
-
+    context 'other user question' do
       it 'deletes question' do
-        another_question
-        expect { delete :destroy, params: { id: another_question } }.to_not change(Question, :count)
+        other_user_question
+        expect { delete :destroy, params: { id: other_user_question } }.to_not change(Question, :count)
       end
 
       it 'redirect to index view' do
-        delete :destroy, params: { id: another_question }
+        delete :destroy, params: { id: other_user_question }
         expect(response).to render_template :show
       end
     end
