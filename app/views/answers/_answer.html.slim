@@ -1,0 +1,8 @@
+-if answer.persisted?
+  .answer-wrapper
+    = answer.body
+    - if current_user&.author_of(answer)
+      = link_to "Удалить ответ",
+        answer_path(answer),
+        method: :delete,
+        data:  { confirm: 'Вы уверены?' }

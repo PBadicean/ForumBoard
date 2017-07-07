@@ -5,15 +5,7 @@ h3 #{@question.title}
     @question,
     method: :delete,
     data:  { confirm: 'Вы уверены?' }
-table
-  -@question.answers.each do |answer|
-    tbody
-      td = answer.body
-      td
-        - if current_user&.author_of(answer)
-          = link_to "Удалить ответ",
-            answer_path(answer),
-            method: :delete,
-            data:  { confirm: 'Вы уверены?' }
+.answers
+  = render 'answers'
 br
 = render 'questions/answer_form'
