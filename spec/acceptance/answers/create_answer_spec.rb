@@ -9,15 +9,16 @@ feature 'Create answer', '
   given(:user){ create(:user) }
   given(:question){ create(:question) }
 
-  scenario 'Authenticated user creates answer'do
+  scenario 'Authenticated user creates answer', js: true do
     sign_in(user)
     visit question_path(question)
 
-    fill_in 'Body', with: 'труляля'
+    fill_in 'Ваш ответ', with: 'труляля'
     click_on 'ответить'
-
-    expect(page).to have_content 'Ваш ответ успешно добален'
     expect(current_path).to eq question_path(question)
+    within '.answers' do
+      expect(page).to have_content 'труляля'
+    end
   end
 
   scenario 'Non-Authenticated user tries to create answer' do
