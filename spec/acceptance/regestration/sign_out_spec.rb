@@ -1,4 +1,4 @@
-require 'rails_helper'
+require 'acceptance/acceptance_helper'
 
 feature 'User tries to log out', '
   In order to finish the session

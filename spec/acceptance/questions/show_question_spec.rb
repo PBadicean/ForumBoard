@@ -1,4 +1,4 @@
-require 'rails_helper'
+require 'acceptance/acceptance_helper'
 
 feature 'All users can to see question', '
   In order to see question

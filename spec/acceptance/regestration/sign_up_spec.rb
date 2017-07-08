@@ -1,4 +1,4 @@
-require 'rails_helper'
+require 'acceptance/acceptance_helper'
 
 feature 'Guest sign up', %q{
   In order to ask question
