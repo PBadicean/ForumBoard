@@ -1,4 +1,4 @@
-require 'rails_helper'
+require 'acceptance/acceptance_helper'
 
 feature 'Create answer', '
   In order answer questions
@@ -19,6 +19,15 @@ feature 'Create answer', '
     within '.answers' do
       expect(page).to have_content 'труляля'
     end
+  end
+
+  scenario 'User tries create invalid answer', js: true do
+    sign_in user
+    visit question_path(question)
+
+    click_on 'ответить'
+
+    expect(page).to have_content "Body can't be blank"
   end
 
   scenario 'Non-Authenticated user tries to create answer' do
