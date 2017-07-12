@@ -6,6 +6,6 @@ h3 #{@question.title}
     method: :delete,
     data:  { confirm: 'Вы уверены?' }
 .answers
-  = render 'answers'
+  = render @question.answers
 br
 = render 'questions/answer_form'

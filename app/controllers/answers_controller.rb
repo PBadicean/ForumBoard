@@ -2,7 +2,7 @@ class AnswersController < ApplicationController
 
   before_action :authenticate_user!, only: [ :create ]
   before_action :set_question, only: [:create]
-  before_action :set_answer, only: [:destroy]
+  before_action :set_answer, only: [:destroy, :update]
 
   def create
     @answer = @question.answers.create(answer_params.merge(user: current_user))
@@ -14,8 +14,13 @@ class AnswersController < ApplicationController
     if current_user.author_of(@answer)
       @answer.destroy
       redirect_to @question, notice: 'Ваш ответ успешно удален'
-    else
-      render 'questions/show'
+    end
+  end
+
+  def update
+    if current_user.author_of(@answer)
+      @answer.update(answer_params)
+      @question = @answer.question
     end
   end
 
