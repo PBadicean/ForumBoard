@@ -1,13 +1,7 @@
 <% if @answer.errors.present? %>
     <% @answer.errors.full_messages.each do |message| %>
-        $('.answer-errors').html('<%= j message %>');
+        $('.edit_answer .answer-errors').html('<%= j message %>');
     <% end %>
 <% else %>
-  $('.answers').html('<%= j render @answer %>');
-  $('.edit-answer-link').click(function(e) {
-    e.preventDefault();
-    $(this).hide();
-    answer_id = $(this).data('answerId');
-    $('form#edit-answer-' + answer_id).show();
-    });
+  $('[data-answer-id=<%= @answer.id %>]').replaceWith('<%= j render @answer %>');
 <% end %>

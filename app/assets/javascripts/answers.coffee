@@ -1,10 +1,11 @@
 # Place all the behaviors and hooks related to the matching controller here.
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
-
-$ ->
-  $('.edit-answer-link').click (e) ->
+ready = ->
+  $('body').on 'click', '.edit-answer-link', (e) ->
+    answerId =  $(this).parents('.answer-wrapper').data('answerId');
+    $('form#edit_answer_'+ answerId).show();
     e.preventDefault();
     $(this).hide();
-    answer_id = $(this).data('answerId')
-    $('form#edit-answer-' + answer_id).show()
+
+$(document).on('turbolinks:load', ready);

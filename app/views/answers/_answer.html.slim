@@ -1,15 +1,17 @@
 -if answer.persisted?
-  .answer-wrapper
+  .answer-wrapper data-answer-id=answer.id
     p= answer.body
 
     - if current_user&.author_of(answer)
       p= link_to "Удалить ответ",
         answer_path(answer),
         method: :delete,
-        data:  { confirm: 'Вы уверены?' }
+        remote: true
 
-      p= link_to 'Редактировать', '', class: 'edit-answer-link', data: { answer_id: answer.id }
-      = form_for answer, remote: true, html: { id: "edit-answer-#{answer.id}" } do |f|
+
+      p= link_to 'Редактировать', '', class: 'edit-answer-link'
+      = form_for answer, remote: true do |f|
+        .answer-errors
         = f.label :body, "Ответ"
         = f.text_area :body
         = f.submit 'Сохранить'

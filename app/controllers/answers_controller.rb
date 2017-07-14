@@ -10,11 +10,7 @@ class AnswersController < ApplicationController
 
   def destroy
     @question = @answer.question
-
-    if current_user.author_of(@answer)
-      @answer.destroy
-      redirect_to @question, notice: 'Ваш ответ успешно удален'
-    end
+    @answer.destroy if current_user.author_of(@answer)
   end
 
   def update
