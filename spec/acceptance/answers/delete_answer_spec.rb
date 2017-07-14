@@ -10,25 +10,30 @@ feature 'User-author can to delete his answer', '
   given(:question) {create(:question)}
   given!(:answer) {create(:answer, user: author, question: question)}
 
-  scenario 'Author can to delete answer' do
+  scenario 'Author can to delete answer', js: true do
     sign_in(author)
     visit question_path(question)
-    click_on 'Удалить ответ'
 
-    expect(page).to have_content 'Ваш ответ успешно удален'
-    expect(current_path).to eq question_path(question)
+    within '.answers' do
+      click_on 'Удалить ответ'
+      expect(page).to have_no_content answer.body
+    end
   end
 
   scenario 'User tries to delete answer' do
     sign_in(user)
     visit question_path(question)
 
-    expect(page).to have_no_link 'Удалить ответ'
+    within '.answers' do
+      expect(page).to have_no_link 'Удалить ответ'
+    end
   end
 
   scenario 'Guest tries to delete answer' do
     visit question_path(question)
 
-    expect(page).to have_no_link 'Удалить ответ'
+    within '.answers' do
+      expect(page).to have_no_link 'Удалить ответ'
+    end
   end
 end
