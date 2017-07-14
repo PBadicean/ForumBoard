@@ -64,33 +64,34 @@ RSpec.describe AnswersController, type: :controller do
   describe 'PATCH #update' do
     context 'Author tries to delete his answer' do
       it 'assigns the requested answer to @answer' do
-        patch :update, params: { id: answer_of_user, question_id: question, answer: attributes_for(:answer)}, format: :js
+        patch :update, params: { id: answer_of_user, question_id: question,
+                                 answer: attributes_for(:answer), format: :js}
         expect(assigns(:answer)).to eq answer_of_user
       end
 
       it 'changes answer attributes' do
-        patch :update, params: { id: answer_of_user, question_id: question, answer: {body: 'new_body'} },  format: :js
+        patch :update, params: { id: answer_of_user, question_id: question, answer: {body: 'new_body'}, format: :js}
         answer_of_user.reload
         expect(answer_of_user.body).to eq 'new_body'
       end
 
       it 'assigns the question' do
-        patch :update, params: { id: answer_of_user, question_id: question, answer: attributes_for(:answer)}, format: :js
+        patch :update, params: { id: answer_of_user, question_id: question, answer: attributes_for(:answer), format: :js}
         expect(assigns(:question)).to eq question
       end
 
       it 'render update template' do
-        patch :update, params: { id: answer_of_user, question_id: question, answer: attributes_for(:answer)}, format: :js
+        patch :update, params: { id: answer_of_user, question_id: question, answer: attributes_for(:answer), format: :js}
         expect(response).to render_template :update
       end
     end
   end
 
   context 'Non author tries to update answer' do
-     it 'does not change answer' do
-       patch :update, params: { id: answer, answer: { body: 'new_body' }, format: :js }
-       answer.reload
-       expect(answer.body).to_not eq 'new_body'
+    it 'does not change answer' do
+      patch :update, params: { id: answer, answer: { body: 'new_body' }, format: :js }
+      answer.reload
+      expect(answer.body).to_not eq 'new_body'
     end
   end
 end

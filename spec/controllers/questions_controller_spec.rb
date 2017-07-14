@@ -18,7 +18,6 @@ RSpec.describe QuestionsController, type: :controller do
 
   describe 'GET #show' do
     let(:question) { create(:question) }
-
     before { get :show, params: { id: question } }
 
     it 'assigns the requested question to @question'do
@@ -36,7 +35,6 @@ RSpec.describe QuestionsController, type: :controller do
 
   describe 'GET #new' do
     sign_in_user
-
     before { get :new }
 
     it 'assigns a new Question to @question' do
@@ -112,6 +110,40 @@ RSpec.describe QuestionsController, type: :controller do
       it 'redirect to index view' do
         delete :destroy, params: { id: other_user_question }
         expect(response).to render_template :show
+      end
+    end
+  end
+
+  describe 'PATCH #update' do
+    sign_in_user
+    let!(:question) { create(:question, user: @user) }
+    let!(:other_user_question) { create(:question) }
+
+    context 'own question' do
+      it 'assigns the requested answer to @question' do
+        patch :update, params: { id: question, question: attributes_for(:question), format: :js }
+        expect(assigns(:question)).to eq question
+      end
+
+      it 'changes answer attributes' do
+        patch :update, params: { id: question, question: { title: 'new title', body: 'new body'}, format: :js}
+        question.reload
+        expect(question.title).to eq 'new title'
+        expect(question.body).to eq 'new body'
+      end
+
+      it 'render update template' do
+        patch :update, params: { id: question, question: attributes_for(:question), format: :js}
+        expect(response).to render_template 'update'
+      end
+    end
+
+    context 'Non author tries to update question' do
+      it 'does not change question' do
+        patch :update, params: { id: other_user_question, question: { title: 'new title', body: 'new body'}, format: :js }
+        other_user_question.reload
+        expect(other_user_question.title).to_not eq 'new title'
+        expect(other_user_question.body).to_not eq 'new body'
       end
     end
   end

@@ -1,5 +1,8 @@
 h1 = 'Все вопросы'
-h2 = render @questions
+
+- @questions.each do |question|
+  h4 = link_to question.title, question_path(question)
+
 br
 - if user_signed_in?
   = link_to 'Задать вопрос', new_question_path

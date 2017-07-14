@@ -1,10 +1,20 @@
-h3 #{@question.title}
-= @question.body
+= render @question 
+
 - if current_user&.author_of(@question)
-  = link_to 'Удалить',
+  p= link_to "Удалить",
     @question,
     method: :delete,
     data:  { confirm: 'Вы уверены?' }
+
+  p= link_to 'Редактировать', '', class: 'edit-question-link'
+  = form_for @question, remote: true do |f|
+    .question-errors
+    = f.label :title, 'Вопрос'
+    = f.text_field :title
+    = f.label :body, 'Содержимое'
+    = f.text_area :body
+    = f.submit 'Сохранить'
+
 .answers
   = render @question.answers
 br
