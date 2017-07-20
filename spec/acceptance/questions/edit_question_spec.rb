@@ -14,17 +14,23 @@ feature "Edit question', '
     sign_in author
     visit question_path(question)
 
-    expect(page).to have_link 'Редактировать'
     click_on 'Редактировать'
+    expect(page).to have_no_link 'Редактировать'
 
-    fill_in 'Вопрос', with: 'измененный вопрос'
-    fill_in 'Содержимое', with: 'измененное содержимое'
-    click_on 'Сохранить'
+    within '.edit_question' do
+      fill_in 'Вопрос', with: 'новый вопрос'
+      fill_in 'Содержимое', with: 'новое содержимое'
+      click_on 'Сохранить'
+      wait_for_ajax
+    end
 
-    expect(page).to_not have_content question.body
-    expect(page).to have_content 'измененный вопрос'
-    expect(page).to have_content 'измененное содержимое'
-    expect(page).to_not have_selector 'textarea'
+    within '.question-wrapper' do
+      expect(page).to have_content 'новый вопрос'
+      expect(page).to have_content 'новое содержимое'
+    end
+
+    expect(page).to have_link 'Редактировать'
+
   end
 
   scenario "Other user try to edit question" do

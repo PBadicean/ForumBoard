@@ -1,23 +1,23 @@
 class AnswersController < ApplicationController
 
   before_action :authenticate_user!, only: [ :create ]
-  before_action :set_question, only: [:create]
-  before_action :set_answer, only: [:destroy, :update]
+  before_action :set_question, only: [:create, :destroy, :update, :accept]
+  before_action :set_answer, only: [:destroy, :update, :accept]
 
   def create
     @answer = @question.answers.create(answer_params.merge(user: current_user))
   end
 
   def destroy
-    @question = @answer.question
     @answer.destroy if current_user.author_of(@answer)
   end
 
   def update
-    if current_user.author_of(@answer)
-      @answer.update(answer_params)
-      @question = @answer.question
-    end
+    @answer.update(answer_params) if current_user.author_of(@answer)
+  end
+
+  def accept
+    @question.update(best_answer: @answer.id)
   end
 
   private

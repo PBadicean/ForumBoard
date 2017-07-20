@@ -1,4 +1,4 @@
-= render @question 
+= render @question
 
 - if current_user&.author_of(@question)
   p= link_to "Удалить",
@@ -16,6 +16,6 @@
     = f.submit 'Сохранить'
 
 .answers
-  = render @question.answers
+  = render @question.answers_by_best
 br
 = render 'questions/answer_form'

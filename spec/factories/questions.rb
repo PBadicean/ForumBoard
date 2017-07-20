@@ -3,6 +3,7 @@ FactoryGirl.define do
     sequence(:title){ |n| "MyString#{n}" }
     sequence(:body){ |n| "MyText#{n}" }
     user
+    best_answer nil
 
     factory :invalid_question do
       title nil
