@@ -2,21 +2,17 @@
   .answer-wrapper data-answer-id=answer.id
     = answer.body
 
-    - if current_user&.author_of(@question) && !answer.best?
+    - if current_user&.author_of(question) && !answer.best?
       = link_to 'Это лучший',
-        accept_question_answer_path(@question, answer),
+        accept_question_answer_path(question, answer),
         method: :patch,
         remote: true
 
     - if current_user&.author_of(answer)
       = link_to "Удалить ответ",
-        question_answer_path(@question, answer),
+        question_answer_path(question, answer),
         method: :delete,
         remote: true
 
       = link_to 'Редактировать', '', class: 'edit-answer-link'
-      = form_for [@question, answer], remote: true do |f|
-        .answer-errors
-        = f.label :body, "Ответ"
-        = f.text_area :body
-        = f.submit 'Сохранить'
+      = render 'answers/form', question: question, answer: answer

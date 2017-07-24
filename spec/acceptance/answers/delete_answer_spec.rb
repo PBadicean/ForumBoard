@@ -6,7 +6,7 @@ feature 'User-author can to delete his answer', '
   I want to delete answer
 ' do
   given(:author) {create(:user)}
-  given(:user) {create(:user)}
+  given(:non_author) {create(:user)}
   given(:question) {create(:question)}
   given!(:answer) {create(:answer, user: author, question: question)}
 
@@ -21,7 +21,7 @@ feature 'User-author can to delete his answer', '
   end
 
   scenario 'User tries to delete answer' do
-    sign_in(user)
+    sign_in(non_author)
     visit question_path(question)
 
     within '.answers' do

@@ -8,23 +8,20 @@ I want to select best answer
 
   given(:non_author){ create(:user) }
   given(:author){ create(:user) }
-  given(:question){ create(:question, user: author) }
-  given!(:answers){ create_list(:answer, 2, question: question, user: non_author) }
+  given(:question){ create(:question, user: author, best_answer: 1) }
+  given!(:answers){ create_list(:answer, 2, question: question) }
 
-  describe 'Author tries to', js: true do
-    scenario 'select best answer'do
-      sign_in author
-      visit question_path(question)
-      answers
+  scenario 'Author tries to select best answer', js: true do
+    sign_in author
+    visit question_path(question)
 
-      within ".answers div[data-answer-id='#{answers.last.id}']"  do
-        click_on 'Это лучший'
-        wait_for_ajax
-      end
-
-      expect(first('.answers div')).to eq find(".answers div[data-answer-id='#{answers.last.id}']")
-      expect(first('.answers div')).to have_no_link('Это лучший')
+    within ".answers div[data-answer-id='#{answers.last.id}']"  do
+      click_on 'Это лучший'
+      wait_for_ajax
     end
+
+    expect(first('.answers div')).to eq find(".answers div[data-answer-id='#{answers.last.id}']")
+    expect(first('.answers div')).to have_no_link('Это лучший')
   end
 
   scenario 'Non-Author tries to select best answer' do
