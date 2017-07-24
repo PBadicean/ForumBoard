@@ -5,14 +5,11 @@ feature 'All can to see all questions', '
   An a user
   I want to see all questions
 ' do
-  given(:questions) { create_list(:question, 2) }
+  given!(:questions) { create_list(:question, 2) }
 
   scenario 'Human tries to see all questions' do
-    questions
     visit questions_path
 
-    questions.each do |question|
-      expect(page).to have_link(question.title)
-    end
+    questions.each { |question| expect(page).to have_link(question.title) }
   end
 end

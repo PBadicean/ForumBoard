@@ -1,4 +1,4 @@
-= render @question
+= render 'question', question: @question
 
 - if current_user&.author_of(@question)
   p= link_to "Удалить",
@@ -7,15 +7,9 @@
     data:  { confirm: 'Вы уверены?' }
 
   p= link_to 'Редактировать', '', class: 'edit-question-link'
-  = form_for @question, remote: true do |f|
-    .question-errors
-    = f.label :title, 'Вопрос'
-    = f.text_field :title
-    = f.label :body, 'Содержимое'
-    = f.text_area :body
-    = f.submit 'Сохранить'
+  = render 'form', question: @question, ajax: true
 
 .answers
-  = render @question.answers_by_best
+  = render @question.answers_by_best, question: @question
 br
-= render 'questions/answer_form'
+= render 'answers/form', question: @question, answer: @answer

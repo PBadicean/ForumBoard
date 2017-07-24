@@ -50,10 +50,6 @@ RSpec.describe QuestionsController, type: :controller do
     context 'Authenticated user can to create' do
       sign_in_user
       context 'with valid attributes' do
-        it 'saves the new question in the database' do
-          expect { post :create, params: { question: attributes_for(:question) } }.to change(Question, :count).by(1)
-        end
-
         it 'Answer by current user saved' do
           expect { post :create, params: { question: attributes_for(:question),
                                          } }.to change(@user.questions, :count).by(1)
@@ -67,7 +63,8 @@ RSpec.describe QuestionsController, type: :controller do
 
       context 'with invalid attributes' do
         it 'does not save the question' do
-          expect { post :create, params: { question: attributes_for(:invalid_question) } }.to_not change(Question, :count)
+          expect { post :create, params: { question: attributes_for(:invalid_question)
+                                         } }.to_not change(Question, :count)
         end
 
         it 're-redirects new view' do
@@ -79,7 +76,8 @@ RSpec.describe QuestionsController, type: :controller do
 
     context 'Non-Authenticated user tries to create' do
       it 'do not saves the new question in the database' do
-        expect { post :create, params: { question: attributes_for(:question) } }.to_not change(Question, :count)
+        expect { post :create, params: { question: attributes_for(:question)
+                                       } }.to_not change(Question, :count)
       end
     end
   end
@@ -92,7 +90,8 @@ RSpec.describe QuestionsController, type: :controller do
     context 'own question' do
       it 'deletes question' do
         question
-        expect { delete :destroy, params: { id: question } }.to change(Question, :count).by(-1)
+        expect { delete :destroy, params: { id: question }
+                                          }.to change(Question, :count).by(-1)
       end
 
       it 'redirect to index view' do
@@ -104,12 +103,8 @@ RSpec.describe QuestionsController, type: :controller do
     context 'other user question' do
       it 'deletes question' do
         other_user_question
-        expect { delete :destroy, params: { id: other_user_question } }.to_not change(Question, :count)
-      end
-
-      it 'redirect to index view' do
-        delete :destroy, params: { id: other_user_question }
-        expect(response).to render_template :show
+        expect { delete :destroy, params: { id: other_user_question }
+                                          }.to_not change(Question, :count)
       end
     end
   end
@@ -126,7 +121,9 @@ RSpec.describe QuestionsController, type: :controller do
       end
 
       it 'changes answer attributes' do
-        patch :update, params: { id: question, question: { title: 'new title', body: 'new body'}, format: :js}
+        patch :update, params: { id: question, question: {
+                                 title: 'new title', body: 'new body'
+                                }, format: :js}
         question.reload
         expect(question.title).to eq 'new title'
         expect(question.body).to eq 'new body'
@@ -140,7 +137,9 @@ RSpec.describe QuestionsController, type: :controller do
 
     context 'Non author tries to update question' do
       it 'does not change question' do
-        patch :update, params: { id: other_user_question, question: { title: 'new title', body: 'new body'}, format: :js }
+        patch :update, params: { id: other_user_question, question: {
+                                 title: 'new title', body: 'new body'
+                                 }, format: :js }
         other_user_question.reload
         expect(other_user_question.title).to_not eq 'new title'
         expect(other_user_question.body).to_not eq 'new body'

@@ -13,9 +13,9 @@ feature 'Create question', '
 
     visit questions_path
     click_on 'Задать вопрос'
-    fill_in 'Title', with: 'Title'
-    fill_in 'Body', with: '123456789'
-    click_on 'Создать'
+    fill_in 'Вопрос', with: 'Title'
+    fill_in 'Содержимое', with: '123456789'
+    click_on 'Сохранить'
 
     expect(page).to have_content 'Ваш вопрос успешно создан'
     expect(current_path).to eq question_path(Question.last)

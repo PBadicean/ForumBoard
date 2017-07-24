@@ -7,45 +7,39 @@ feature "Edit answer', '
 " do
 
   given(:author) { create(:user) }
-  given(:user) { create(:user) }
-  given!(:question) { create(:question) }
+  given(:non_author) { create(:user) }
+  given(:question) { create(:question) }
   given!(:answer) { create(:answer, question: question, user: author) }
 
-  describe 'Authenticated user' do
-    before do
-      sign_in author
-      visit question_path(question)
-    end
+  scenario 'Authenticated user tries to edit his answer', js: true do
+    sign_in author
+    visit question_path(question)
 
-    scenario 'sees link to Edit' do
-      within '.answers' do
-        expect(page).to have_link 'Редактировать'
-      end
-    end
-
-    scenario 'try to edit his answer', js: true do
+    within '.answers' do
       click_on 'Редактировать'
-      within '.answers' do
-        fill_in 'Ответ', with: 'изменный ответ'
-        click_on 'Сохранить'
+      fill_in 'Ответ', with: 'изменный ответ'
+      click_on 'Сохранить'
 
-        expect(page).to_not have_content answer.body
-        expect(page).to have_content 'изменный ответ'
-        expect(page).to_not have_selector 'textarea'
-      end
+      expect(page).to_not have_content answer.body
+      expect(page).to have_content 'изменный ответ'
+      expect(page).to_not have_selector 'textarea'
     end
   end
 
   scenario "Other user try to edit question" do
-    sign_in user
+    sign_in non_author
     visit question_path(question)
 
-    expect(page).to_not have_link 'Редактировать'
+    within '.answers' do
+      expect(page).to_not have_link 'Редактировать'
+    end
   end
 
   scenario 'Unauthenticated user try to edit question' do
     visit question_path(question)
 
-    expect(page).to_not have_link 'Редактировать'
+    within '.answers' do
+      expect(page).to_not have_link 'Редактировать'
+    end
   end
 end

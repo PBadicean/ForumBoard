@@ -1,8 +1,8 @@
 class QuestionsController < ApplicationController
 
   before_action :authenticate_user!, only: [ :new, :create]
-
   before_action :load_question, only: [:show, :destroy, :update]
+  before_action :check_author, only: [:destroy, :update]
 
   def index
     @questions = Question.all
@@ -26,19 +26,19 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
-    if current_user.author_of(@question)
-      @question.destroy
-      redirect_to questions_path, notice: 'Ваш вопрос успешно удален'
-    else
-      render :show
-    end
+    @question.destroy
+    redirect_to questions_path, notice: 'Ваш вопрос успешно удален'
   end
 
   def update
-    @question.update(question_params) if current_user.author_of(@question)
+    @question.update(question_params)
   end
 
   private
+
+  def check_author
+    head :forbidden unless current_user.author_of(@question)
+  end
 
   def load_question
     @question = Question.find(params[:id])

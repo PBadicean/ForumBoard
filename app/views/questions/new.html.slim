@@ -1,9 +1,2 @@
 h1 Создание вопроса
-= form_for @question do |f|
-  = f.label :title
-  = f.text_field :title
-  br
-  = f.label :body
-  = f.text_area :body
-  br
-  = f.submit 'Создать'
+= render 'form', question: @question, ajax: false
