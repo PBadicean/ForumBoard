@@ -6,11 +6,8 @@ class Question < ApplicationRecord
   validates :title, :body, presence: true
 
   def answers_by_best
-    if best_answer.present?
-      answers.order("id=#{best_answer} desc")
-    else
-      answers
-    end
+    return answers if best_answer.nil?
+    answers.order("id=#{best_answer} desc")
   end
 
 end
