@@ -7,7 +7,7 @@ feature "Edit question', '
 " do
 
   given(:author) { create(:user) }
-  given(:user) { create(:user) }
+  given(:non_author) { create(:user) }
   given!(:question) { create(:question, user: author) }
 
   scenario 'Authenticated user edit question', js: true do
@@ -34,7 +34,7 @@ feature "Edit question', '
   end
 
   scenario "Other user try to edit question" do
-    sign_in user
+    sign_in non_author
     visit question_path(question)
 
     expect(page).to_not have_link 'Редактировать'
