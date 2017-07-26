@@ -18,7 +18,7 @@ feature 'Add files to question', '
     attach_file 'File', "#{Rails.root}/spec/spec_helper.rb"
     click_on 'Сохранить'
 
-    expect(page).to have_content 'spec_helper.rb'
+    expect(page).to have_link 'spec_helper.rb', href:  '/uploads/attachment/file/1/spec_helper.rb'
   end
 
 end
