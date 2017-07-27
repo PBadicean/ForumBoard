@@ -10,8 +10,6 @@ RSpec.describe Question, type: :model do
 
   it { should accept_nested_attributes_for :attachments }
 
-
-
   describe '#answers_by_best'do
     let(:answers) { create_list(:answer, 2) }
     let(:question) { create(:question, answers: answers, best_answer: answers.last.id) }
