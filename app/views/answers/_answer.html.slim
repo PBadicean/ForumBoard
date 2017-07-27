@@ -1,6 +1,9 @@
 - if answer.persisted?
   .answer-wrapper data-answer-id=answer.id
     = answer.body
+    ul
+      - answer.attachments.each do |a|
+        li= link_to a.file.identifier, a.file.url
 
     - if current_user&.author_of(question) && !answer.best?
       = link_to 'Это лучший',
