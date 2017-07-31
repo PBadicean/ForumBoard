@@ -27,10 +27,9 @@ ActiveRecord::Schema.define(version: 20170726194450) do
     t.string "file"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "attachmentable_id"
-    t.string "attachmentable_type"
-    t.index ["attachmentable_id"], name: "index_attachments_on_attachmentable_id"
-    t.index ["attachmentable_type"], name: "index_attachments_on_attachmentable_type"
+    t.integer "attachable_id"
+    t.string "attachable_type"
+    t.index ["attachable_id", "attachable_type"], name: "index_attachments_on_attachable_id_and_attachable_type"
   end
 
   create_table "questions", force: :cascade do |t|

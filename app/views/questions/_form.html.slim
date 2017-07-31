@@ -6,9 +6,10 @@
   = f.label :body, 'Содержимое'
   = f.text_area :body
   p Attachments:
-  p
+  #attachments
     = f.fields_for :attachments do |a|
-      = a.label :file
-      = a.file_field :file
+      = render 'attachment_fields', f: a
+    .links
+      = link_to_add_association 'еще один', f, :attachments
 
   p= f.submit 'Сохранить'

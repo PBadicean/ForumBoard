@@ -2,8 +2,11 @@
   .answer-errors
   = f.label :body, "Ответ"
   = f.text_area :body
-  = f.fields_for :attachments do |a|
-    = a.label :file
-    = a.file_field :file
+  p Attachments:
+  #attachments
+    = f.fields_for :attachments do |a|
+      = render 'answers/attachment_fields', f: a
+    .links
+      = link_to_add_association 'еще один', f, :attachments
   br
   = f.submit 'Сохранить'
