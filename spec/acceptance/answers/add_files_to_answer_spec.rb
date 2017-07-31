@@ -9,18 +9,28 @@ feature 'Add files to answer', '
   given(:user) {create(:user)}
   given(:question) {create(:question)}
 
-  background do
+  scenario 'User adds file when keep answer', js: true do
     sign_in user
     visit question_path(question)
-  end
 
-  scenario 'User adds file when keep answer', js: true do
     fill_in 'Ответ', with: 'труляля'
-    attach_file 'File', "#{Rails.root}/spec/spec_helper.rb"
+
+    within all("#attachments > .nested-fields").first do
+      find('input[type="file"]').set("#{Rails.root}/spec/spec_helper.rb")
+    end
+
+    click_on 'еще один'
+    within all("#attachments > .nested-fields").last do
+      find('input[type="file"]').set("#{Rails.root}/spec/rails_helper.rb")
+    end
+
     click_on 'Сохранить'
 
-    within '.answers'do
-      expect(page).to have_link 'spec_helper.rb', href: '/uploads/attachment/file/1/spec_helper.rb'
+    within '.answer_attachments'do
+      expect(page).to have_link 'spec_helper.rb', \
+        href: "#{Rails.root}/spec/support/uploads/attachment/file/1/spec_helper.rb"
+      expect(page).to have_link 'rails_helper.rb', \
+        href: "#{Rails.root}/spec/support/uploads/attachment/file/2/rails_helper.rb"
     end
   end
 end
