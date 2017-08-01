@@ -12,4 +12,5 @@
 .answers
   = render @question.answers_by_best, question: @question
 br
-= render 'answers/form', question: @question, answer: @answer
+.new_answer
+  = render 'answers/form', question: @question, answer: @answer
