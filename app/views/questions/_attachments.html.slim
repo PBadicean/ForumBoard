@@ -1,0 +1,8 @@
+p Файлы:
+ul
+  - question.attachments.each do |a|
+    li id="attachment-#{a.id}"
+      = link_to a.file.identifier, a.file.url
+
+      - if current_user&.author_of(question)
+        = link_to 'удалить файл', attachment_path(a), method: :delete, remote: true

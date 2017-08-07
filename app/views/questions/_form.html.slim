@@ -10,6 +10,6 @@
     = f.fields_for :attachments do |a|
       = render 'attachment_fields', f: a
     .links
-      = link_to_add_association 'еще один', f, :attachments
+      = link_to_add_association 'добавить файл', f, :attachments
 
   p= f.submit 'Сохранить'

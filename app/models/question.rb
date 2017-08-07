@@ -1,7 +1,7 @@
 class Question < ApplicationRecord
 
   has_many :answers, dependent: :destroy
-  has_many :attachments, as: :attachable, inverse_of: :attachable
+  has_many :attachments, as: :attachable, inverse_of: :attachable, dependent: :destroy
 
   belongs_to :user
 

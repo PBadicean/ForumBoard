@@ -1,6 +1,6 @@
 class Answer < ApplicationRecord
 
-  has_many :attachments, as: :attachable, inverse_of: :attachable
+  has_many :attachments, as: :attachable, inverse_of: :attachable, dependent: :destroy
 
   belongs_to :question
   belongs_to :user

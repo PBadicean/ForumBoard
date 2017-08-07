@@ -14,12 +14,13 @@ feature 'Add files to answer', '
     visit question_path(question)
 
     fill_in 'Ответ', with: 'труляля'
+    click_on 'добавить файл'
 
     within all("#attachments > .nested-fields").first do
       find('input[type="file"]').set("#{Rails.root}/spec/spec_helper.rb")
     end
 
-    click_on 'еще один'
+    click_on 'добавить файл'
     within all("#attachments > .nested-fields").last do
       find('input[type="file"]').set("#{Rails.root}/spec/rails_helper.rb")
     end

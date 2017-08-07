@@ -14,18 +14,19 @@ feature 'Add files to question', '
 
     fill_in 'Вопрос', with: 'Title'
     fill_in 'Содержимое', with: '123456789'
+    click_on 'добавить файл'
 
     within all('.nested-fields').first do
       find('input[type="file"]').set("#{Rails.root}/spec/spec_helper.rb")
     end
-    click_on 'еще один'
+    click_on 'добавить файл'
 
     within all('.nested-fields').last do
       find('input[type="file"]').set("#{Rails.root}/spec/rails_helper.rb")
     end
 
     click_on 'Сохранить'
-    
+
     within '.question_attachments'do
       expect(page).to have_link 'spec_helper.rb', \
         href: "#{Rails.root}/spec/support/uploads/attachment/file/1/spec_helper.rb"
