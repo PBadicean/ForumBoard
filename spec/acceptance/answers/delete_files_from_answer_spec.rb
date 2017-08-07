@@ -23,14 +23,14 @@ feature 'Remove files from answer', '
     end
   end
 
-  scenario 'Non-author tries to remove file from question' do
+  scenario 'Non-author tries to remove file from answer' do
     sign_in non_author
     visit question_path(question)
 
     within('.answer_attachments'){ expect(page).to have_no_link 'удалить файл' }
   end
 
-  scenario 'Guest tries to remove file from question' do
+  scenario 'Guest tries to remove file from answer' do
     visit question_path(question)
 
     within('.answer_attachments'){ expect(page).to have_no_link 'удалить файл' }
