@@ -1,6 +1,7 @@
 class QuestionsController < ApplicationController
 
-  before_action :authenticate_user!, only: [:new, :create]
+  include PublicShowAndIndex
+
   before_action :load_question, only: [:show, :destroy, :update]
   before_action :check_author, only: [:destroy, :update]
 
