@@ -1,4 +1,5 @@
 class User < ApplicationRecord
+
   has_many :questions
   has_many :answers
   # Include default devise modules. Others available are:
@@ -9,4 +10,5 @@ class User < ApplicationRecord
   def author_of(resources)
     resources.user_id == self.id
   end
+
 end
