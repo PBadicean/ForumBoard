@@ -1,5 +1,6 @@
 require 'rails_helper'
 require_relative 'concerns/attachable'
+require_relative 'concerns/votable'
 
 RSpec.describe Question, type: :model do
   it { should have_many(:answers) }
@@ -9,6 +10,7 @@ RSpec.describe Question, type: :model do
   it { should validate_presence_of :body }
 
   it_behaves_like 'attachable'
+  it_behaves_like 'votable'
 
   describe '#answers_by_best'do
     let(:answers) { create_list(:answer, 2) }

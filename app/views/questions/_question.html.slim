@@ -1,5 +1,17 @@
 .question-wrapper
   h3 #{question.title}
   p = question.body
+
   .question_attachments
     = render  'questions/attachments', question: question
+
+  - if current_user&.author_of(@question)
+    = link_to "Удалить",
+      @question,
+      method: :delete,
+      data:  { confirm: 'Вы уверены?' }
+
+    = link_to 'Редактировать', '', class: 'edit-question-link'
+    = render 'form', question: @question, ajax: true
+  br
+  = link_to 'За вопрос', vote_for_question_path(question), method: :post
