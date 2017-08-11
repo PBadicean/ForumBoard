@@ -1,5 +1,6 @@
 require 'rails_helper'
 require_relative 'concerns/attachable'
+require_relative 'concerns/votable'
 
 RSpec.describe Answer, type: :model do
 
@@ -8,5 +9,6 @@ RSpec.describe Answer, type: :model do
   it { should validate_presence_of :body }
 
   it_behaves_like 'attachable'
+  it_behaves_like 'votable'
 
 end

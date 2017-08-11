@@ -5,6 +5,7 @@ Rails.application.routes.draw do
     resources :answers do
       patch :accept, on: :member
     end
+    post :vote_for, on: :member 
   end
 
   resources :attachments, only: [:destroy]

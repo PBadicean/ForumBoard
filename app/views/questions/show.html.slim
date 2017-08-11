@@ -1,14 +1,5 @@
 = render 'question', question: @question
 
-- if current_user&.author_of(@question)
-  p= link_to "Удалить",
-    @question,
-    method: :delete,
-    data:  { confirm: 'Вы уверены?' }
-
-  p= link_to 'Редактировать', '', class: 'edit-question-link'
-  = render 'form', question: @question, ajax: true
-
 .answers
   = render @question.answers_by_best, question: @question
 br

@@ -5,6 +5,7 @@ RSpec.describe User do
   it { should have_many :answers }
   it { should validate_presence_of :email }
   it { should validate_presence_of :password }
+  it { should have_many :votes }
 
   describe '#author_of?'do
     let(:user) { create :user }
