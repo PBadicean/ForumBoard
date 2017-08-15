@@ -7,4 +7,13 @@ ready = ->
     $(this).hide();
     $('form.edit_question').show();
 
-$(document).on('turbolinks:load', ready)
+  $('.link-up-vote').click (e) ->
+    e.preventDefault();
+    questionId = $(this).data('questionId');
+    $.post "/questions/#{questionId}/up_vote", (data) ->
+      $( ".question-wrapper" ).before( "<p>Вы успешно проголосовали за вопрос</p>" );
+      $('.question_rating').text("Рейтинг вопроса " + data.rating)
+      $('.link-up-vote').hide();
+      $('.link-down-vote').hide();
+
+$(document).on('turbolinks:load', ready);

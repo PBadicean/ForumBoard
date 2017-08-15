@@ -146,4 +146,46 @@ RSpec.describe QuestionsController, type: :controller do
       end
     end
   end
-end
+
+  describe 'POST #up_vote' do
+    sign_in_user
+    let(:other_user_question) { create(:question) }
+    let(:question) { create(:question, user: @user) }
+
+    context 'Non-author tries to vote for question' do
+      it 'saves the new vote for question' do
+        expect { post :up_vote, params: { id: other_user_question, format: :js
+                                       } }.to change(other_user_question.votes, :count).by(1)
+      end
+    end
+
+    context 'Author tries to vote' do
+      it 'does not create a new vote' do
+        expect do
+          post :up_vote, params: { id: question, format: :json }
+        end.to_not change(question.votes, :count)
+      end
+    end
+  end
+
+    describe 'POST #down_vote' do
+      sign_in_user
+      let(:other_user_question) { create(:question) }
+      let(:question) { create(:question, user: @user) }
+
+      context 'Non-author tries to vote against question' do
+        it 'saves the new vote for question' do
+          expect { post :down_vote, params: { id: other_user_question, format: :json
+                                         } }.to change(other_user_question.votes, :count).by(1)
+        end
+      end
+
+      context 'Author tries to vote' do
+        it 'does not create a new vote' do
+          expect do
+            post :down_vote, params: { id: question, format: :json }
+          end.to_not change(question.votes, :count)
+        end
+      end
+    end
+  end
