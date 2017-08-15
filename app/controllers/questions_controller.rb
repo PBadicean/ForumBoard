@@ -1,6 +1,7 @@
 class QuestionsController < ApplicationController
 
   include PublicShowAndIndex
+  include Voted
 
   before_action :load_question, only: [:show, :destroy, :update]
   before_action :check_author, only: [:destroy, :update]

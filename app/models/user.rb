@@ -13,4 +13,8 @@ class User < ApplicationRecord
     resources.user_id == self.id
   end
 
+  def was_voting(resources)
+    resources.votes.where(user_id: id).exists?
+  end
+
 end
