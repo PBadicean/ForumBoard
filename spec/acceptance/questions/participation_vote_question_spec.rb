@@ -29,6 +29,13 @@ feature 'Others users can participate in voting', '
     scenario 'He can to up vote' do
       click_on 'За вопрос'
       expect(page).to have_content 'Вы успешно проголосовали за вопрос'
+      within('.question_rating') { expect(page).to have_content 'Рейтинг вопроса 1' }
+    end
+
+    scenario 'He can to up vote' do
+      click_on 'Против вопроса'
+      expect(page).to have_content 'Вы успешно проголосовали против вопроса'
+      within('.question_rating') { expect(page).to have_content 'Рейтинг вопроса -1' }
     end
   end
 end

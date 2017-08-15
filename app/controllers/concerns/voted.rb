@@ -9,11 +9,12 @@ module Voted
 
   def up_vote
     @vote = @votable.votes.create(value: 1, user: current_user)
-    render json: { question: @votable, rating: @votable.rating }
+    render json: { votable: @votable, rating: @votable.rating }
   end
 
   def down_vote
     @vote = @votable.votes.create(value: -1, user: current_user)
+    render json: { votable: @votable, rating: @votable.rating }
   end
 
   protected
