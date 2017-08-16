@@ -9,13 +9,13 @@ ready = ->
 
   $('.link-up-vote').click (e) ->
     e.preventDefault();
-    questionId = $(this).data('questionId');
-    $.post "/questions/#{questionId}/up_vote", (data) ->
+    id = $(this).data('questionId');
+    $.post "/questions/#{id}/up_vote", (data) ->
       rating = data.rating;
       $( ".question-wrapper" ).before( "<p>Вы успешно проголосовали за вопрос</p>" );
       $('.question_rating').text("Рейтинг вопроса " + rating);
-      $('.link-up-vote').hide();
-      $('.link-down-vote').hide();
+      $('.voting-question').html('<a class="revote" href="">Переголосовать</a>')
+
 
   $('.link-down-vote').click (e) ->
     e.preventDefault();
@@ -24,8 +24,8 @@ ready = ->
       rating = data.rating;
       $( ".question-wrapper" ).before( "<p>Вы успешно проголосовали против вопроса</p>" );
       $('.question_rating').text("Рейтинг вопроса " + rating);
-      $('.link-up-vote').hide();
-      $('.link-down-vote').hide();
+      $('.voting-question').html('<a class="revote" href="">Переголосовать</a>')
+
 
 
 $(document).on('turbolinks:load', ready);

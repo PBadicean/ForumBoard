@@ -30,12 +30,27 @@ feature 'Others users can participate in voting', '
       click_on 'За вопрос'
       expect(page).to have_content 'Вы успешно проголосовали за вопрос'
       within('.question_rating') { expect(page).to have_content 'Рейтинг вопроса 1' }
+      expect(page).to have_no_link 'За вопрос'
+      expect(page).to have_no_link 'Против вопроса'
+      expect(page).to have_content 'Переголосовать'
     end
 
-    scenario 'He can to up vote' do
+    scenario 'He can to down vote' do
       click_on 'Против вопроса'
       expect(page).to have_content 'Вы успешно проголосовали против вопроса'
       within('.question_rating') { expect(page).to have_content 'Рейтинг вопроса -1' }
+      expect(page).to have_no_link 'За вопрос'
+      expect(page).to have_no_link 'Против вопроса'
+      expect(page).to have_content 'Переголосовать'
+    end
+
+    describe 'he can to revote' do
+      scenario 'revote up question' do
+        click_on 'За вопрос'
+        within('.question_rating') { expect(page).to have_content 'Рейтинг вопроса 1' }
+        click_on 'Переголосовать'
+        within('.question_rating') { expect(page).to have_content 'Рейтинг вопроса 0' }
+      end
     end
   end
 end

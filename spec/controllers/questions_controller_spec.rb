@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe QuestionsController, type: :controller do
+  let(:question) { create(:question, user: @user) }
+  let(:other_user_question) { create(:question) }
 
   describe 'GET #index' do
     let(:questions) { create_list(:question, 2) }
@@ -84,8 +86,6 @@ RSpec.describe QuestionsController, type: :controller do
 
   describe 'DELETE #destroy'do
     sign_in_user
-    let(:question) { create(:question, user: @user) }
-    let(:other_user_question) { create(:question) }
 
     context 'own question' do
       it 'deletes question' do
@@ -111,8 +111,6 @@ RSpec.describe QuestionsController, type: :controller do
 
   describe 'PATCH #update' do
     sign_in_user
-    let!(:question) { create(:question, user: @user) }
-    let!(:other_user_question) { create(:question) }
 
     context 'own question' do
       it 'assigns the requested answer to @question' do
@@ -149,8 +147,6 @@ RSpec.describe QuestionsController, type: :controller do
 
   describe 'POST #up_vote' do
     sign_in_user
-    let(:other_user_question) { create(:question) }
-    let(:question) { create(:question, user: @user) }
 
     context 'Non-author tries to vote for question' do
       it 'saves the new vote for question' do
@@ -168,24 +164,44 @@ RSpec.describe QuestionsController, type: :controller do
     end
   end
 
-    describe 'POST #down_vote' do
-      sign_in_user
-      let(:other_user_question) { create(:question) }
-      let(:question) { create(:question, user: @user) }
+  describe 'POST #down_vote' do
+    sign_in_user
 
-      context 'Non-author tries to vote against question' do
-        it 'saves the new vote for question' do
-          expect { post :down_vote, params: { id: other_user_question, format: :json
-                                         } }.to change(other_user_question.votes, :count).by(1)
-        end
+    context 'Non-author tries to vote against question' do
+      it 'saves the new vote for question' do
+        expect { post :down_vote, params: { id: other_user_question, format: :json
+                                       } }.to change(other_user_question.votes, :count).by(1)
       end
+    end
 
-      context 'Author tries to vote' do
-        it 'does not create a new vote' do
-          expect do
-            post :down_vote, params: { id: question, format: :json }
-          end.to_not change(question.votes, :count)
-        end
+    context 'Author tries to vote' do
+      it 'does not create a new vote' do
+        expect do
+          post :down_vote, params: { id: question, format: :json }
+        end.to_not change(question.votes, :count)
       end
     end
   end
+
+  describe 'DELETE #revote' do
+    sign_in_user
+    let(:vote_of_author) { create(:vote, votable: other_user_question, user: @user) }
+    let(:vote) { create(:vote, votable: other_user_question) }
+
+    context 'Author the vote tries to revote' do
+      it 'destroy vote of the hes author' do
+        vote_of_author
+        expect { delete :revote, params: { id: other_user_question, format: :json
+                                         } }.to change(other_user_question.votes, :count).by(-1)
+      end
+    end
+
+    context 'Non-author the vote tries revote' do
+      it 'destroy vote of the hes author' do
+        vote
+        expect { delete :revote, params: { id: other_user_question, format: :json
+                                         } }.to_not change(other_user_question.votes, :count)
+      end
+    end
+  end
+end

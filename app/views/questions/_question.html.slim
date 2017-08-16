@@ -3,7 +3,7 @@
   p Тело #{question.body}
   .question_rating
     p Рейтинг вопроса #{question.rating}
-    p = render 'vote', question: question
+  p = render 'vote', question: question
 
   .question_attachments
     = render  'questions/attachments', question: question
