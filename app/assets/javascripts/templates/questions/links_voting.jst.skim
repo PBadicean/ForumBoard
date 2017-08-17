@@ -1,0 +1,2 @@
+a.link-up-vote data-question-id="#{@votable.id}" href="" За вопрос
+a.link-down-vote data-question-id="#{@votable.id}" href="" Против вопроса

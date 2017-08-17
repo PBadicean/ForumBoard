@@ -59,6 +59,9 @@ group :test do
   gem 'launchy'
   gem 'shoulda-matchers', git: 'https://github.com/thoughtbot/shoulda-matchers.git', branch: 'rails-5'
 end
+gem 'skim'
+gem 'sprockets', '>= 3.7.0'
+
 gem 'slim-rails'
 gem 'rails-controller-testing'
 gem 'devise'

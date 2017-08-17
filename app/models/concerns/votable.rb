@@ -6,7 +6,7 @@ module Votable
   end
 
   def rating
-    votes.liked_count - votes.disliked_count
+    votes.sum(:value)
   end
 
   def destroy_vote(user)
