@@ -1,6 +1,6 @@
 .voting-question
   - if !current_user&.author_of(question) && !current_user&.was_voting(question)
-    = link_to 'За вопрос', '', class: 'link-up-vote', data: { question_id: question.id }
-    = link_to 'Против вопроса', '', class: 'link-down-vote', data: { question_id: question.id }
+    = link_to 'За вопрос', '', class: 'link-up-vote', data: { type: :json, question_id: question.id }
+    = link_to 'Против вопроса', '', class: 'link-down-vote', data: { type: :json, question_id: question.id }
   - elsif current_user&.was_voting(question)
-    = link_to 'Переголосовать',  '', class: 'revote'
+    = link_to 'Переголосовать', '', class: 'revote', data: { type: :json, question_id: question.id }
