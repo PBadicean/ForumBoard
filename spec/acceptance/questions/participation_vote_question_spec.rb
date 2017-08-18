@@ -22,8 +22,8 @@ feature 'Others users can participate in voting', '
    end
 
     scenario 'He see link for vote' do
-     within('.link-up-vote') { expect(page).to have_content 'За вопрос'}
-     within('.link-down-vote') { expect(page).to have_content 'Против вопроса'}
+     within('.link-up-vote') { expect(page).to have_content('За вопрос') }
+     within('.link-down-vote') { expect(page).to have_content('Против вопроса') }
     end
 
     scenario 'He can to up vote' do
@@ -51,6 +51,28 @@ feature 'Others users can participate in voting', '
         click_on 'Переголосовать'
         within('.question_rating') { expect(page).to have_content 'Рейтинг вопроса 0' }
       end
+
+      scenario 'revote down question' do
+        click_on 'Против вопроса'
+        within('.question_rating') { expect(page).to have_content 'Рейтинг вопроса -1' }
+        click_on 'Переголосовать'
+        within('.question_rating') { expect(page).to have_content 'Рейтинг вопроса 0' }
+      end
     end
+  end
+
+  scenario 'Author can not to vote' do
+    sign_in author
+    visit question_path(question)
+
+    expect(page).to have_no_link 'За вопрос'
+    expect(page).to have_no_link 'Против вопроса'
+  end
+
+  scenario 'Non-authenticated can not to vote' do
+    visit question_path(question)
+
+    expect(page).to have_no_link 'За вопрос'
+    expect(page).to have_no_link 'Против вопроса'
   end
 end

@@ -36,7 +36,7 @@ ready = ->
       type: "DELETE"
       success: (data) ->
         rating = data.rating
-        html = JST['templates/questions/links_voting']( {votable: {id: data.votable.id }} )
+        html = JST['templates/questions/links_to_vote']( {votable: {id: data.votable.id }} )
         $('.question_rating').text("Рейтинг вопроса " + rating)
         $('.voting-question').html(html)
 
