@@ -2,7 +2,6 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 ready = ->
-  console.log 3
   $('.edit-question-link').click (e) ->
     e.preventDefault();
     $(this).hide();
@@ -30,7 +29,6 @@ ready = ->
       $('.voting-question').html(link_revote)
 
   $(document).on 'click', '.revote', (e) ->
-    console.log 1
     e.preventDefault()
     id = $(this).data('questionId');
     $.ajax
