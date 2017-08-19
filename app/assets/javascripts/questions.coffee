@@ -12,10 +12,10 @@ ready = ->
     id = $(this).data('questionId');
     $.post "/questions/#{id}/up_vote", (data) ->
       rating = data.rating
-      link_revote = JST['templates/questions/link_revote']({ votable: data.votable })
+      linkRevote = JST['templates/questions/link_revote']({ votable: data.votable })
       $( ".notice" ).html( "<p>Вы успешно проголосовали за вопрос</p>" );
       $('.question_rating').text("Рейтинг вопроса " + rating)
-      $('.voting-question').html(link_revote)
+      $('.voting-question').html(linkRevote)
 
 
   $(document).on 'click', '.link-down-vote', (e) ->
@@ -23,10 +23,10 @@ ready = ->
     id = $(this).data('questionId');
     $.post "/questions/#{id}/down_vote", (data) ->
       rating = data.rating
-      link_revote = JST['templates/questions/link_revote']({ votable: data.votable })
+      linkRevote = JST['templates/questions/link_revote']({ votable: data.votable })
       $( ".notice" ).html( "<p>Вы успешно проголосовали против вопроса</p>" )
       $('.question_rating').text("Рейтинг вопроса " + rating)
-      $('.voting-question').html(link_revote)
+      $('.voting-question').html(linkRevote)
 
   $(document).on 'click', '.revote', (e) ->
     e.preventDefault()
@@ -36,9 +36,8 @@ ready = ->
       type: "DELETE"
       success: (data) ->
         rating = data.rating
-        html = JST['templates/questions/links_to_vote']( {votable: {id: data.votable.id }} )
+        linksVote = JST['templates/questions/links_to_vote']({ votable: data.votable })
         $('.question_rating').text("Рейтинг вопроса " + rating)
-        $('.voting-question').html(html)
-
+        $('.voting-question').html(linksVote)
 
 $(document).on('turbolinks:load', ready);

@@ -1,7 +1,7 @@
 require 'acceptance/acceptance_helper'
 
 feature 'Others users can participate in voting', '
-  In order to vote for and down to question
+  In order to vote up and down to question
   An a other user
   I want vote question
 ' do
@@ -19,7 +19,7 @@ feature 'Others users can participate in voting', '
     before do
       sign_in non_author
       visit question_path(question)
-   end
+    end
 
     scenario 'He see link for vote' do
      within('.link-up-vote') { expect(page).to have_content('За вопрос') }
