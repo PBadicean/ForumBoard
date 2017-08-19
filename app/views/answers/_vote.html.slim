@@ -1,0 +1,10 @@
+.voting-answer
+  - if current_user.present?
+    - if !current_user&.author_of(answer) && !current_user&.was_voting(answer)
+      = link_to 'За ответ', '', class: 'link-up-vote-answer',
+          data: { type: :json, answer_id: answer.id, question_id: question.id }
+      = link_to 'Против ответа', '', class: 'link-down-vote-answer',
+          data: { type: :json, answer_id: answer.id, question_id: question.id }
+    - elsif current_user&.was_voting(answer)
+      = link_to 'Переголосовать', '', class: 'revote_answer',
+          data: { type: :json, answer_id: answer.id, question_id: question.id }
