@@ -1,7 +1,7 @@
 h1 = 'Все вопросы'
 
 - @questions.each do |question|
-  h4 = link_to question.title, question_path(question)
+  h4 = link_to question.title, question_path(question), data: { turbolinks: false }
 
 br
 - if user_signed_in?

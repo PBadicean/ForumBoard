@@ -1,7 +1,7 @@
 # Place all the behaviors and hooks related to the matching controller here.
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
-ready = ->
+$ ->
   $('.edit-question-link').click (e) ->
     e.preventDefault();
     $(this).hide();
@@ -36,5 +36,3 @@ ready = ->
       $( ".notice" ).html( '<p>'+text+'</p>' )
       $('.question_rating').text("Рейтинг вопроса " + rating)
       $('.voting-question').html(linkRevote)
-
-$(document).on('turbolinks:load', ready);

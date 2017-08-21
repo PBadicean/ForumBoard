@@ -82,14 +82,14 @@ RSpec.describe AnswersController, type: :controller do
     context 'Author tries to update his answer' do
       it 'assigns the requested answer to @answer' do
         patch :update, params: { id: answer_of_user, question_id: question,
-                                 answer: attributes_for(:answer), format: :js}
+                                 answer: attributes_for(:answer), format: :js }
         expect(assigns(:answer)).to eq answer_of_user
       end
 
       it 'changes answer attributes' do
         patch :update, params: { id: answer_of_user,
                                  question_id: question,
-                                 answer: {body: 'new_body'}, format: :js}
+                                 answer: {body: 'new_body'}, format: :js }
         answer_of_user.reload
         expect(answer_of_user.body).to eq 'new_body'
       end
@@ -97,14 +97,14 @@ RSpec.describe AnswersController, type: :controller do
       it 'assigns the question' do
         patch :update, params: { id: answer_of_user,
                                  question_id: question,
-                                 answer: attributes_for(:answer), format: :js}
+                                 answer: attributes_for(:answer), format: :js }
         expect(assigns(:question)).to eq question
       end
 
       it 'render update template' do
         patch :update, params: { id: answer_of_user,
                                  question_id: question,
-                                 answer: attributes_for(:answer), format: :js}
+                                 answer: attributes_for(:answer), format: :js }
         expect(response).to render_template :update
       end
     end
@@ -151,21 +151,38 @@ RSpec.describe AnswersController, type: :controller do
   describe 'POST #up_vote' do
     sign_in_user
 
-    context 'Non-author tries to vote for question' do
-      it 'saves the new vote for question' do
-        expect { post :up_vote, params: { id: answer,
-                                          question_id: answer.question,
-                                          format: :js
-                                        } }.to change(answer.votes, :count).by(1)
+    context 'Non-author tries to vote for answer' do
+      it 'assigns the requested votable to @votable' do
+        post :up_vote, params: { id: answer, question_id: answer.question, format: :json }
+        expect(assigns(:votable)).to eq answer
+      end
+
+      it 'saves the new vote for answer' do
+        expect do
+          post :up_vote, params: { id: answer, question_id: answer.question, format: :json }
+        end.to change(answer.votes, :count).by(1)
+      end
+
+      it 'checks that value of vote to equal 1' do
+        post :up_vote, params: { id: answer, question_id: answer.question, format: :json }
+        expect(assigns(:vote).value).to eq 1
       end
     end
 
     context 'Author tries to vote' do
       it 'does not create a new vote' do
-        expect { post :up_vote, params: { id: answer_of_user,
-                                          question_id: question,
-                                          format: :json
-                                  } }.to_not change(answer_of_user.votes, :count)
+        expect do
+          post :up_vote, params: { id: answer_of_user, question_id: question, format: :json }
+        end.to_not change(answer_of_user.votes, :count)
+      end
+    end
+
+    context 'Non-author tries to vote 2 times' do
+      it 'does not create a new vote' do
+        post :up_vote, params: { id: answer, question_id: question, format: :json }
+        expect do
+          post :up_vote, params: { id: answer, question_id: question, format: :json }
+        end.to_not change(answer.votes, :count)
       end
     end
   end
@@ -173,21 +190,38 @@ RSpec.describe AnswersController, type: :controller do
   describe 'POST #down_vote' do
     sign_in_user
 
-    context 'Non-author tries to vote against question' do
-      it 'saves the new vote for question' do
-        expect { post :down_vote, params: { id: answer,
-                                            question_id: answer.question,
-                                            format: :json
-                                       } }.to change(answer.votes, :count).by(1)
+    context 'Non-author tries to vote against answer' do
+      it 'assigns the requested votable to @votable' do
+        post :down_vote, params: { id: answer, question_id: answer.question, format: :json }
+        expect(assigns(:votable)).to eq answer
+      end
+
+      it 'checks that value of vote to equal -1' do
+        post :down_vote, params: { id: answer, question_id: answer.question, format: :json }
+        expect(assigns(:vote).value).to eq -1
+      end
+
+      it 'saves the new vote for answer' do
+        expect do
+          post :down_vote, params: { id: answer, question_id: answer.question, format: :json }
+        end.to change(answer.votes, :count).by(1)
       end
     end
 
     context 'Author tries to vote' do
       it 'does not create a new vote' do
-        expect { post :down_vote, params: { id: answer_of_user,
-                                            question_id: question,
-                                            format: :json
-                                          } }.to_not change(answer_of_user.votes, :count)
+        expect do
+          post :down_vote, params: { id: answer_of_user, question_id: answer.question, format: :json }
+        end.to_not change(answer_of_user.votes, :count)
+      end
+    end
+
+    context 'Non-author tries to vote 2 times' do
+      it 'does not create a new vote' do
+        post :down_vote, params: { id: answer, question_id: question, format: :json }
+        expect do
+          post :down_vote, params: { id: answer, question_id: question, format: :json }
+        end.to_not change(answer.votes, :count)
       end
     end
   end
@@ -200,20 +234,18 @@ RSpec.describe AnswersController, type: :controller do
     context 'Author the vote tries to revote' do
       it 'destroy vote of the hes author' do
         vote_of_author
-        expect { delete :revote, params: { id: answer,
-                                           question_id: answer.question,
-                                           format: :json
-                                          } }.to change(answer.votes, :count).by(-1)
+        expect do
+          delete :revote, params: { id: answer, question_id: answer.question, format: :json }
+        end.to change(answer.votes, :count).by(-1)
       end
     end
 
     context 'Non-author the vote tries revote' do
       it 'destroy vote of the hes author' do
         vote
-        expect { delete :revote, params: { id: answer,
-                                           question_id: answer.question,
-                                           format: :json
-                                          } }.to_not change(answer.votes, :count)
+        expect do
+          delete :revote, params: { id: answer, question_id: answer.question, format: :json }
+        end.to_not change(answer.votes, :count)
       end
     end
   end
