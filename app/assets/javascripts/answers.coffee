@@ -8,34 +8,6 @@ ready = ->
     e.preventDefault();
     $(this).hide();
 
-  $(document).on 'click', '.link-up-vote-answer', (e) ->
-    e.preventDefault();
-    answer_id = $(this).data('answerId');
-    question_id = $(this).data('questionId');
-
-    $.post "/questions/#{question_id}/answers/#{answer_id}/up_vote", (data) ->
-      rating = data.rating
-      votable = data.votable
-      answerWrapper = ".answer-wrapper[data-answer-id=#{votable.id}]"
-      linkRevote = JST['templates/answers/link_revote']({ votable: votable })
-      $( ".notice" ).html( "<p>Вы успешно проголосовали за ответ</p>" );
-      $(answerWrapper + "> .answer_rating").text("Рейтинг ответа " + rating)
-      $(answerWrapper + " > .voting-answer").html(linkRevote)
-
-  $(document).on 'click', '.link-down-vote-answer', (e) ->
-    e.preventDefault();
-    answer_id = $(this).data('answerId');
-    question_id = $(this).data('questionId');
-
-    $.post "/questions/#{question_id}/answers/#{answer_id}/down_vote", (data) ->
-      rating = data.rating
-      votable = data.votable
-      answerWrapper = ".answer-wrapper[data-answer-id=#{votable.id}]"
-      linkRevote = JST['templates/answers/link_revote']({ votable: votable })
-      $( ".notice" ).html( "<p>Вы успешно проголосовали против ответа</p>" );
-      $(answerWrapper + "> .answer_rating").text("Рейтинг ответа " + rating)
-      $(answerWrapper + " > .voting-answer").html(linkRevote)
-
   $(document).on 'click', '.revote_answer', (e) ->
     e.preventDefault()
     answer_id = $(this).data('answerId');
@@ -50,5 +22,26 @@ ready = ->
         linksVote = JST['templates/answers/links_to_vote']({ votable: votable })
         $(answerWrapper + "> .answer_rating").text("Рейтинг ответа " + rating)
         $(answerWrapper + " > .voting-answer").html(linksVote)
+
+  $(document).on 'click', '.link-up-vote-answer', (e) ->
+    e.preventDefault();
+    answer_id = $(this).data('answerId');
+    question_id = $(this).data('questionId');
+    voteRequest("/questions/#{question_id}/answers/#{answer_id}/up_vote", "Вы успешно проголосовали за ответ")
+
+  $(document).on 'click', '.link-down-vote-answer', (e) ->
+    e.preventDefault();
+    answer_id = $(this).data('answerId');
+    question_id = $(this).data('questionId');
+    voteRequest("/questions/#{question_id}/answers/#{answer_id}/down_vote", "Вы успешно проголосовали против ответа")
+
+  voteRequest = (url, text) ->
+    $.post url, (data) ->
+      votable = data.votable
+      answerWrapper = ".answer-wrapper[data-answer-id=#{votable.id}]"
+      linkRevote = JST['templates/answers/link_revote']({ votable: votable })
+      $( ".notice" ).html( '<p>'+text+'</p>' );
+      $(answerWrapper + "> .answer_rating").text("Рейтинг ответа " + data.rating)
+      $(answerWrapper + " > .voting-answer").html(linkRevote)
 
 $(document).on('turbolinks:load', ready);
