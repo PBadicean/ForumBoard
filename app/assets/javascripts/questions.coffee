@@ -33,7 +33,7 @@ ready = ->
     $.post url, (data) ->
       rating = data.rating
       linkRevote = JST['templates/questions/link_revote']({ votable: data.votable })
-      $( ".notice" ).html( '<p>' + text + '</p>' )
+      $( ".notice" ).html( '<p>'+text+'</p>' )
       $('.question_rating').text("Рейтинг вопроса " + rating)
       $('.voting-question').html(linkRevote)
 
