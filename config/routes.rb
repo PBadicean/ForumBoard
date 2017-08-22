@@ -3,9 +3,9 @@ Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   concern :votable do
     member do
-      post :up_vote, on: :member
-      post :down_vote, on: :member
-      delete :revote, on: :member
+      post :up_vote
+      post :down_vote
+      delete :revote 
     end
   end
 
