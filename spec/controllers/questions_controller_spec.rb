@@ -156,7 +156,7 @@ RSpec.describe QuestionsController, type: :controller do
 
       it 'saves the new vote for question' do
         expect do
-          post :up_vote, params: { id: other_user_question, format: :js }
+          post :up_vote, params: { id: other_user_question, format: :json }
         end.to change(other_user_question.votes, :count).by(1)
       end
 
@@ -215,9 +215,9 @@ RSpec.describe QuestionsController, type: :controller do
 
     context 'Non-author tries to down vote 2 times' do
       it 'does not create a new vote' do
-        post :up_vote, params: { id: question, format: :json }
+        post :down_vote, params: { id: question, format: :json }
         expect do
-          post :up_vote, params: { id: question, format: :json }
+          post :down_vote, params: { id: question, format: :json }
         end.to_not change(question.votes, :count)
       end
     end

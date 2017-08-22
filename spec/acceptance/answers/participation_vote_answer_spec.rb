@@ -73,7 +73,6 @@ feature 'Others users can participate in voting', '
   scenario 'Author can not to vote', js: true do
     sign_in author
     visit question_path(question)
-    # save_and_open_page
 
     expect(page).to have_no_link 'За ответ'
     expect(page).to have_no_link 'Против ответа'
