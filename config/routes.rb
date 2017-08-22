@@ -2,9 +2,11 @@ Rails.application.routes.draw do
   devise_for :users
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   concern :votable do
-    post :up_vote, on: :member
-    post :down_vote, on: :member
-    delete :revote, on: :member
+    member do
+      post :up_vote, on: :member
+      post :down_vote, on: :member
+      delete :revote, on: :member
+    end
   end
 
   resources :questions, concerns: :votable do
