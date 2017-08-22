@@ -3,7 +3,7 @@ class AnswersController < ApplicationController
   include Voted
 
   before_action :set_question, only: [:create, :accept]
-  before_action :set_answer, only: [:destroy, :update, :accept]
+  before_action :set_answer, only: [:destroy, :accept, :update]
   before_action :check_author, only: [:destroy, :update]
 
   def create

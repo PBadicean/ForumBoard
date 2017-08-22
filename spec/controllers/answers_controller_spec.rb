@@ -46,12 +46,6 @@ RSpec.describe AnswersController, type: :controller do
 
   describe 'DELETE #destroy' do
     context 'Author wants to delete answer' do
-      it 'set question' do
-        delete :destroy, params:{ id: answer_of_user,
-                                question_id: question, format: :js }
-        expect(assigns(:question)).to eq answer_of_user.question
-      end
-
       it 'destroys answer' do
         answer_of_user
         expect do
@@ -92,13 +86,6 @@ RSpec.describe AnswersController, type: :controller do
                                  answer: {body: 'new_body'}, format: :js }
         answer_of_user.reload
         expect(answer_of_user.body).to eq 'new_body'
-      end
-
-      it 'assigns the question' do
-        patch :update, params: { id: answer_of_user,
-                                 question_id: question,
-                                 answer: attributes_for(:answer), format: :js }
-        expect(assigns(:question)).to eq question
       end
 
       it 'render update template' do
