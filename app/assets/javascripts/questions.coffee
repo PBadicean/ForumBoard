@@ -2,6 +2,7 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 $ ->
+  # questionsList = $(".questions_list")
   $('.edit-question-link').click (e) ->
     e.preventDefault();
     $(this).hide();
@@ -36,3 +37,13 @@ $ ->
       $( ".notice" ).html( '<p>'+text+'</p>' )
       $('.question_rating').text("Рейтинг вопроса " + rating)
       $('.voting-question').html(linkRevote)
+
+  # App.cable.subscriptions.create('QuestionsChannel', {
+  #   connected: ->
+  #     console.log 'connected!!'
+  #     @perform 'follow'
+  #   ,
+  #
+  #   received: (data) ->
+  #     questionsList.append data
+  # })
