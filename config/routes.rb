@@ -5,7 +5,7 @@ Rails.application.routes.draw do
     member do
       post :up_vote
       post :down_vote
-      delete :revote 
+      delete :revote
     end
   end
 
@@ -17,4 +17,6 @@ Rails.application.routes.draw do
 
   resources :attachments, only: [:destroy]
   root to: "questions#index"
+
+  mount ActionCable.server => '/cable'
 end

@@ -5,7 +5,7 @@ $('.question-errors').empty();
     $('.question-errors').append('<p> <%= message %> </p>')
   <% end %>
 <% else %>
-  $('.question-wrapper').replaceWith('<%= j render @question %>');
+  $('.question-wrapper').replaceWith("<%= j render 'questions/partials/question_block', question: @question %>");
   $('form.edit_question').hide();
   $('.edit-question-link').show();
 <% end %>
