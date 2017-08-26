@@ -1,7 +1,8 @@
 h1 = 'Все вопросы'
+
 .questions_list
   - @questions.each do |question|
-    = render 'questions/partials/question', question: question
+    = render 'question', question: question
 
 br
 - if user_signed_in?

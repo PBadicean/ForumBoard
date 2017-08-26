@@ -3,7 +3,7 @@
   p Тело #{question.body}
   .question_rating
     p Рейтинг вопроса #{question.rating}
-  p = render 'questions/partials/vote', question: question
+  p = render 'vote', question: question
 
   - if current_user&.author_of(question)
     = link_to "Удалить",
@@ -11,6 +11,6 @@
       method: :delete
 
     = link_to 'Редактировать', '', class: 'edit-question-link'
-    = render 'questions/partials/form', question: question, ajax: true
+    = render 'form', question: question, ajax: true
   .question_attachments
-    = render  'questions/partials/attachments', question: question
+    = render  'attachments', question: question
