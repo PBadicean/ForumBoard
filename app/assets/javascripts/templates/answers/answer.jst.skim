@@ -1,0 +1,10 @@
+- if @answer
+  .answer-wrapper data-answer-id=@answer.id
+    p #{@answer.body}
+    .answer_rating data-answer-id=@answer.id
+      p Рейтинг ответа #{@rating}
+
+    - if @user
+      .voting-answer data-answer-id=@answer.id
+        a.link-up-vote-answer data-question-id="#{@question_id}"  data-answer-id="#{@answer.id}" href="" За ответ
+        a.link-down-vote-answer data-question-id="#{@question_id}" data-answer-id="#{@answer.id}" href="" Против ответа

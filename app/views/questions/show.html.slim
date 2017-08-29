@@ -1,5 +1,8 @@
 = render 'question_block', question: @question
+
 .answers
-  = render @question.answers_by_best, question: @question
-.new_answer
-  = render 'answers/form', question: @question, answer: @answer
+  = render @question.answers_by_best
+
+- if user_signed_in?
+  .new_answer
+    = render 'answers/form', question: @question, answer: @answer

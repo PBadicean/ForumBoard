@@ -1,2 +1,2 @@
-a.link-up-vote-answer data-question-id="#{@votable.question_id}"  data-answer-id="#{@votable.id}" href="" За ответ
-a.link-down-vote-answer data-question-id="#{@votable.question_id}" data-answer-id="#{@votable.id}" href="" Против ответа
+a.link-up-vote-answer data-question-id="#{@question_id}"  data-answer-id="#{@answer.id}" href="" За ответ
+a.link-down-vote-answer data-question-id="#{@question_id}" data-answer-id="#{@answer.id}" href="" Против ответа

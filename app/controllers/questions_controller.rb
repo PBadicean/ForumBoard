@@ -6,7 +6,6 @@ class QuestionsController < ApplicationController
   before_action :load_question, only: [:show, :destroy, :update]
   before_action :check_author, only: [:destroy, :update]
   after_action :publish_question, only: [:create]
-  after_action :publish_not_question, only: [:destroy]
 
   def index
     @questions = Question.all
@@ -14,6 +13,7 @@ class QuestionsController < ApplicationController
 
   def show
     @answer = @question.answers.new
+    gon.current_user = current_user
   end
 
   def new
@@ -62,15 +62,4 @@ class QuestionsController < ApplicationController
       )
     )
   end
-
-  def publish_not_question
-    ActionCable.server.broadcast(
-      'questions',
-      ApplicationController.render(
-        partial: 'questions/question',
-        locals: { question: @question }
-      )
-    )
-  end
-
 end

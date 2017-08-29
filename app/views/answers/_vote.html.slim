@@ -1,4 +1,5 @@
-.voting-answer
+.voting-answer data-answer-id=answer.id
+
   - if current_user&.was_voting(answer)
     = link_to 'Переголосовать', '', class: 'revote_answer',
       data: { answer_id: answer.id, question_id: question.id }
