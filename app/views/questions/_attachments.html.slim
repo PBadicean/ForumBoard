@@ -1,4 +1,4 @@
-- if question.attachments.present?
+- unless question.attachments.empty?
   p Файлы:
   ul
     - question.attachments.each do |a|
