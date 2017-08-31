@@ -1,0 +1,7 @@
+- if comment.persisted?
+  body
+     table
+       tr
+         td
+           .comment-wrapper data-comment-id=comment.id
+             = comment.body

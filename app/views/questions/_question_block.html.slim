@@ -12,5 +12,5 @@
 
     = link_to 'Редактировать', '', class: 'edit-question-link'
     = render 'form', question: question, ajax: true
-  .question-attachments
     = render  'attachments', question: question
+    / = render 'question_comments', question: question
