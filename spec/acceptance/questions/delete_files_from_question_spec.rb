@@ -15,7 +15,7 @@ feature 'Remove files from question', '
     sign_in author
     visit question_path(question)
 
-    within('.question_attachments') do
+    within('.question-attachments') do
       click_on 'удалить файл'
       expect(page).to have_no_link attachment.file.identifier
       expect(page).to have_no_link 'удалить файл'
@@ -26,12 +26,12 @@ feature 'Remove files from question', '
     sign_in non_author
     visit question_path(question)
 
-    within('.question_attachments'){ expect(page).to have_no_link 'удалить файл' }
+    within('.question-attachments'){ expect(page).to have_no_link 'удалить файл' }
   end
 
   scenario 'Guest tries to remove file from question' do
     visit question_path(question)
 
-    within('.question_attachments'){ expect(page).to have_no_link 'удалить файл' }
+    within('.question-attachments'){ expect(page).to have_no_link 'удалить файл' }
   end
 end

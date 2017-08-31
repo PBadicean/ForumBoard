@@ -1,11 +1,11 @@
 - if answer.persisted?
   .answer-wrapper data-answer-id=answer.id
     = answer.body
-    .answer_rating data-answer-id=answer.id
+    .answer-rating data-id=answer.id
       p Рейтинг ответа #{answer.rating}
     p = render 'answers/vote', answer: answer, question: answer.question
 
-    .answer_attachments
+    .answer-attachments
       = render 'answers/attachments', answer: answer
 
     - if current_user&.author_of(answer.question) && !answer.best?

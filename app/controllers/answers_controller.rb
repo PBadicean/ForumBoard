@@ -45,7 +45,7 @@ class AnswersController < ApplicationController
     return if @answer.errors.any?
     ActionCable.server.broadcast(
       "#{@question.id}_answers",
-      answer: @answer, question: @question,
+      answer: @answer, question: @question, attachments: @answer.attachments,
       author: @answer.user, answer_rating: @answer.rating
     )
   end

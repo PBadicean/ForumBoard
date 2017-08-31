@@ -13,7 +13,7 @@ class QuestionsController < ApplicationController
 
   def show
     @answer = @question.answers.new
-    gon.current_user = current_user
+    gon.current_user = current_user if current_user.present?
   end
 
   def new

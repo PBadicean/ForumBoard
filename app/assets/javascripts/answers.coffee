@@ -5,7 +5,7 @@ $ ->
     e.preventDefault();
     $(this).hide();
 
-  $(document).on 'click', '.revote_answer', (e) ->
+  $(document).on 'click', '.revote-answer', (e) ->
     e.preventDefault()
     answer_id = $(this).data('answerId');
     question_id = $(this).data('questionId');
@@ -34,7 +34,7 @@ $ ->
         answerWrapper = ".answer-wrapper[data-answer-id=#{answer.id}]"
         linksVote = JST['templates/answers/links_to_vote']({ answer: answer, question_id: answer.question_id })
         linkRevote = JST['templates/answers/link_revote']({ answer: answer, question_id: answer.question_id })
-        $(answerWrapper + "> .answer_rating").text("Рейтинг ответа " + data.rating)
+        $(answerWrapper + "> .answer-rating").text("Рейтинг ответа " + data.rating)
         $( ".notice" ).html( '<p>'+text+'</p>' );
         if type == "DELETE"
           $(answerWrapper + "> .voting-answer").html(linksVote)
@@ -47,6 +47,6 @@ $ ->
         @perform 'follow'
       received: (data) ->
         if ( gon.current_user == undefined or gon.current_user.id != data.author.id )
-          answerBlock = JST['templates/answers/answer']({ answer: data.answer, question_id: data.question.id
+          answerBlock = JST['templates/answers/answer']({ answer: data.answer, question: data.question
           rating: data.answer_rating, attachments: data.attachments, user: gon.current_user, author: data.author })
           $('.answers').append(answerBlock)
