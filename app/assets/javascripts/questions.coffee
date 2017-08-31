@@ -28,7 +28,7 @@ $ ->
       success: (data) ->
         linksVote = JST['templates/questions/links_to_vote']({ votable: data.votable })
         linkRevote = JST['templates/questions/link_revote']({ votable: data.votable })
-        $('.question_rating').text("Рейтинг вопроса " + data.rating)
+        $('.question-rating').text("Рейтинг вопроса " + data.rating)
         $( ".notice" ).html( '<p>'+text+'</p>' )
         if type == "DELETE"
           $('.voting-question').html(linksVote)
@@ -39,5 +39,5 @@ $ ->
     connected: ->
       @perform 'follow',
     received: (data) ->
-      $('.questions_list').append data
+      $('.questions-list').append data
   })

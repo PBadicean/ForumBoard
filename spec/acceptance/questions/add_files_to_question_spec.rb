@@ -27,7 +27,7 @@ feature 'Add files to question', '
 
     click_on 'Сохранить'
 
-    within '.question_attachments'do
+    within '.question-attachments'do
       expect(page).to have_link 'spec_helper.rb', \
         href: "#{Rails.root}/spec/support/uploads/attachment/file/1/spec_helper.rb"
       expect(page).to have_link 'rails_helper.rb', \

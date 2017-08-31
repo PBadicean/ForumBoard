@@ -18,13 +18,13 @@ feature 'Others users can participate in voting', '
     scenario 'He can to up vote' do
       click_on 'За вопрос'
       expect(page).to have_content 'Вы успешно проголосовали за вопрос'
-      within('.question_rating') { expect(page).to have_content 'Рейтинг вопроса 1' }
+      within('.question-rating') { expect(page).to have_content 'Рейтинг вопроса 1' }
     end
 
     scenario 'He can to down vote' do
       click_on 'Против вопроса'
       expect(page).to have_content 'Вы успешно проголосовали против вопроса'
-      within('.question_rating') { expect(page).to have_content 'Рейтинг вопроса -1' }
+      within('.question-rating') { expect(page).to have_content 'Рейтинг вопроса -1' }
     end
 
     describe 'vote 2 times' do
@@ -51,7 +51,7 @@ feature 'Others users can participate in voting', '
       scenario 'revote up question' do
         click_on 'За вопрос'
         click_on 'Переголосовать'
-        within('.question_rating') { expect(page).to have_content 'Рейтинг вопроса 0' }
+        within('.question-rating') { expect(page).to have_content 'Рейтинг вопроса 0' }
         click_on 'За вопрос'
         expect(page).to have_content 'Рейтинг вопроса 1'
       end
@@ -59,7 +59,7 @@ feature 'Others users can participate in voting', '
       scenario 'revote down question' do
         click_on 'Против вопроса'
         click_on 'Переголосовать'
-        within('.question_rating') { expect(page).to have_content 'Рейтинг вопроса 0' }
+        within('.question-rating') { expect(page).to have_content 'Рейтинг вопроса 0' }
         click_on 'Против вопроса'
         expect(page).to have_content 'Рейтинг вопроса -1'
       end
