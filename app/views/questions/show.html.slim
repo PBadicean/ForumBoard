@@ -1,6 +1,10 @@
 = render 'question_block', question: @question
 
+.comments
+  = render @question.comments
+
 .answers
+  h3 Ответы
   = render @question.answers_by_best
 
 - if user_signed_in?

@@ -1,7 +1,7 @@
 class Question < ApplicationRecord
 
   include Votable
-
+  include Commentable
   include Attachable
 
   has_many :answers, dependent: :destroy
