@@ -1,28 +1,24 @@
 - if answer.persisted?
-  body
-     table
-       tr
-         td
-           .answer-wrapper data-answer-id=answer.id
-             = answer.body
-             .answer-rating data-id=answer.id
-               p Рейтинг ответа #{answer.rating}
-             p = render 'answers/vote', answer: answer, question: answer.question
+  .answer-wrapper data-answer-id=answer.id
+    = answer.body
+    .answer-rating data-id=answer.id
+      p Рейтинг ответа #{answer.rating}
+    p = render 'answers/vote', answer: answer, question: answer.question
 
-             .answer-attachments
-               = render 'answers/attachments', answer: answer
+    .answer-attachments
+      = render 'answers/attachments', answer: answer
 
-             - if current_user&.author_of(answer.question) && !answer.best?
-               = link_to 'Это лучший',
-                 accept_question_answer_path(answer.question, answer),
-                 method: :patch,
-                 remote: true
+    - if current_user&.author_of(answer.question) && !answer.best?
+      = link_to 'Это лучший',
+        accept_question_answer_path(answer.question, answer),
+        method: :patch,
+        remote: true
 
-             - if current_user&.author_of(answer)
-               = link_to "Удалить ответ",
-                 question_answer_path(answer.question, answer),
-                 method: :delete,
-                 remote: true
+    - if current_user&.author_of(answer)
+      = link_to "Удалить ответ",
+        question_answer_path(answer.question, answer),
+        method: :delete,
+        remote: true
 
-               = link_to 'Редактировать', '', class: 'edit-answer-link'
-               = render 'answers/form', question: answer.question, answer: answer
+      = link_to 'Редактировать', '', class: 'edit-answer-link'
+      = render 'answers/form', question: answer.question, answer: answer
