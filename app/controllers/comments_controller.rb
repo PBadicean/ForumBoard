@@ -3,9 +3,8 @@ class CommentsController < ApplicationController
   before_action :set_commentable
 
   def create
-    @comment = @commentable.comments.new(comment_params)
+    @comment = @commentable.comments.build(comment_params)
     @comment.user = current_user
-
     if @comment.save
       render json: @comment
     else

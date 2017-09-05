@@ -1,12 +1,15 @@
 = render 'question_block', question: @question
 
 .comments
-  = render @question.comments
+  h3 Коментарии
+  = render @question.comments.reverse
+- if user_signed_in?
+  .new-comment
+    = render 'comments/form', commentable: @question, comment: @comment
 
 .answers
   h3 Ответы
   = render @question.answers_by_best
-
 - if user_signed_in?
   .new-answer
     = render 'answers/form', question: @question, answer: @answer

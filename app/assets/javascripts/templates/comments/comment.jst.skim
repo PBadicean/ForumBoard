@@ -1,0 +1,2 @@
+div.comment-wrapper data-comment-id="#{@comment.id}"
+  p #{@comment.body}
