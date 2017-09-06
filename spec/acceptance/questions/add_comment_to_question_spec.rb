@@ -13,19 +13,16 @@ feature 'User adds comment to question', '
     scenario 'with valid attributes' do
       Capybara.using_session('guest') do
         visit question_path(question)
-        within('.question-wrapper') { expect(page)have_content 'Комментарии' }
+        within('.comments') { expect(page).to have_content 'Коментарии' }
       end
 
       Capybara.using_session('user') do
         sign_in(user)
         visit question_path(question)
 
-        within('.question-wrapper') do
-          click_on 'коментировать'
-          fill_in 'Кометн', with: 'Lalalala'
-          click_on 'Оставить'
-          expect(page).to have_content 'Lalalala'
-        end
+        fill_in 'Комент', with: 'Lalalala'
+        click_on 'Отправить'
+        expect(page).to have_content 'Lalalala'
       end
 
       Capybara.using_session('guest') { expect(page).to have_content 'Lalalala' }
