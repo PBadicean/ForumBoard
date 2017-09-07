@@ -2,9 +2,9 @@
 
   - if current_user&.was_voting(answer)
     = link_to 'Переголосовать', '', class: 'revote-answer',
-      data: { answer_id: answer.id, question_id: question.id }
+      data: { answer_id: answer.id }
   - elsif current_user.present? && !current_user.author_of(answer)
     = link_to 'За ответ', '', class: 'link-up-vote-answer',
-        data: { answer_id: answer.id, question_id: question.id }
+        data: { answer_id: answer.id }
     = link_to 'Против ответа', '', class: 'link-down-vote-answer',
-        data: { answer_id: answer.id, question_id: question.id }
+        data: { answer_id: answer.id }

@@ -4,6 +4,16 @@
     .answer-rating data-id=@answer.id
       p Рейтинг ответа #{@rating}
 
+    a.comments-link href="" Комментарии
+    div.answer-comments data-id="#{@answer.id}"
+    br
+    form.new_comment id="new_comment" action="/answers/#{@answer.id}/comments" method="post" style="display: none;"
+      div.comment-errors
+      label for="comment_body" Комент
+      textarea name="comment[body]" id="comment_body"
+      br
+      input type="submit" name="commit" value="Отправить" data-disable-with="Отправить"
+
     - if @user
       .voting-answer data-id=@answer.id
         a.link-up-vote-answer data-question-id="#{@question.id}"  data-answer-id="#{@answer.id}" href="" За ответ

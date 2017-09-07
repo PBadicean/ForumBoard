@@ -3,6 +3,9 @@
   p Тело #{question.body}
   .question-rating
     p Рейтинг вопроса #{question.rating}
+  = render 'question_comments', question: question
+  - if user_signed_in?
+    = render 'comments/form', commentable: question, comment: Comment.new
   p = render 'vote', question: question
 
   - if current_user&.author_of(question)

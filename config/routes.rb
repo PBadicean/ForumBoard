@@ -14,7 +14,7 @@ Rails.application.routes.draw do
   end
 
   resources :questions, concerns: %i[votable commentable] do
-    resources :answers, concerns: %i[votable commentable] do
+    resources :answers, concerns: %i[votable commentable], shallow: true do
       patch :accept, on: :member
     end
   end
