@@ -8,21 +8,18 @@ $ ->
   $(document).on 'click', '.revote-answer', (e) ->
     e.preventDefault()
     answer_id = $(this).data('answerId');
-    question_id = $(this).data('questionId');
-    voteRequest("/questions/#{question_id}/answers/#{answer_id}/revote", "", "DELETE")
+    voteRequest("/answers/#{answer_id}/revote", "", "DELETE")
 
   $(document).on 'click', '.link-up-vote-answer', (e) ->
     e.preventDefault();
     answer_id = $(this).data('answerId');
-    question_id = $(this).data('questionId');
-    voteRequest("/questions/#{question_id}/answers/#{answer_id}/up_vote",
+    voteRequest("/answers/#{answer_id}/up_vote",
       "Вы успешно проголосовали за ответ", "POST")
 
   $(document).on 'click', '.link-down-vote-answer', (e) ->
     e.preventDefault();
     answer_id = $(this).data('answerId');
-    question_id = $(this).data('questionId');
-    voteRequest("/questions/#{question_id}/answers/#{answer_id}/down_vote",
+    voteRequest("/answers/#{answer_id}/down_vote",
       "Вы успешно проголосовали против ответа", "POST")
 
   voteRequest = (url, text, type) ->

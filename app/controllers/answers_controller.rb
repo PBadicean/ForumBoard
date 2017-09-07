@@ -2,7 +2,7 @@ class AnswersController < ApplicationController
 
   include Voted
 
-  before_action :set_question, only: [:create, :accept]
+  before_action :set_question, only: [:create]
   before_action :set_answer, only: [:destroy, :accept, :update]
   before_action :check_author, only: [:destroy, :update]
   after_action :publish_answer, only: [:create]
@@ -20,6 +20,7 @@ class AnswersController < ApplicationController
   end
 
   def accept
+    @question = @answer.question
     @question.update(best_answer: @answer.id) if current_user.author_of(@question)
   end
 

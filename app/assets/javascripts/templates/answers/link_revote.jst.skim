@@ -1,1 +1,1 @@
-a.revote-answer data-answer-id="#{@answer.id}" data-question-id="#{@question_id}" href="" Переголосовать
+a.revote-answer data-answer-id="#{@answer.id}" href="" Переголосовать

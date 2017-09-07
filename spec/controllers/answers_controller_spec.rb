@@ -49,14 +49,12 @@ RSpec.describe AnswersController, type: :controller do
       it 'destroys answer' do
         answer_of_user
         expect do
-          delete :destroy, params:{ id: answer_of_user,
-                                    question_id: question, format: :js }
+          delete :destroy, params:{ id: answer_of_user, format: :js }
         end.to change(question.answers, :count).by(-1)
       end
 
       it 'renders template destroy' do
-        delete :destroy, params:{ id: answer_of_user,
-                                  question_id: question, format: :js }
+        delete :destroy, params:{ id: answer_of_user, format: :js }
         expect(response).to render_template 'destroy'
       end
     end
@@ -65,8 +63,7 @@ RSpec.describe AnswersController, type: :controller do
       it 'not destroys answer' do
         answer
         expect do
-          delete :destroy, params:{ id: answer,
-                                    question_id: question, format: :js }
+          delete :destroy, params:{ id: answer, format: :js }
         end.to_not change(Answer, :count)
       end
     end
@@ -75,14 +72,14 @@ RSpec.describe AnswersController, type: :controller do
   describe 'PATCH #update' do
     context 'Author tries to update his answer' do
       it 'assigns the requested answer to @answer' do
-        patch :update, params: { id: answer_of_user, question_id: question,
-                                 answer: attributes_for(:answer), format: :js }
+        patch :update, params: { id: answer_of_user,
+                                 answer: attributes_for(:answer),
+                                 format: :js }
         expect(assigns(:answer)).to eq answer_of_user
       end
 
       it 'changes answer attributes' do
         patch :update, params: { id: answer_of_user,
-                                 question_id: question,
                                  answer: {body: 'new_body'}, format: :js }
         answer_of_user.reload
         expect(answer_of_user.body).to eq 'new_body'
@@ -90,7 +87,6 @@ RSpec.describe AnswersController, type: :controller do
 
       it 'render update template' do
         patch :update, params: { id: answer_of_user,
-                                 question_id: question,
                                  answer: attributes_for(:answer), format: :js }
         expect(response).to render_template :update
       end
@@ -99,7 +95,6 @@ RSpec.describe AnswersController, type: :controller do
     context 'Non author tries to update answer' do
       it 'does not change answer' do
         patch :update, params: { id: answer,
-                                 answer: { body: 'new_body' },
                                  question_id: question, format: :js }
         answer.reload
         expect(answer.body).to_not eq 'new_body'
@@ -109,12 +104,15 @@ RSpec.describe AnswersController, type: :controller do
 
   describe 'PATCH #accept' do
     sign_in_user
-    let!(:answer) { create(:answer) }
     let!(:question) { create(:question, user: @user) }
+    let!(:answer)   { create(:answer, question: question) }
 
     context 'Author tries to select best answer' do
-      before { patch :accept, params: { id: answer,
-                                        question_id: question, format: :js } }
+      before { patch :accept, params: { id: answer, format: :js } }
+
+      it 'assigns question of answer to @question' do
+        expect(assigns(:question)).to eq answer.question
+      end
 
       it 'checks that answer is first in list answers of question' do
         expect(assigns(:question).best_answer).to eq answer.id

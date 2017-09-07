@@ -6,9 +6,9 @@ $('#answer-wrapper').val('');
 <% else %>
   <% if remotipart_submitted? %>
     $('.answers').append("<%= j "#{render @answer, question: @question }" %>");
-    $('.new-answer').html("<%= j "#{render 'form', question: @answer.question, answer: Answer.new}" %>");
+    $('.new-answer').html("<%= j "#{render 'form', path: [@answer.question, Answer.new] }" %>");
   <% else %>
     $('.answers').append('<%= j render @answer, question: @question %>');
-    $('.new-answer').html('<%= j render 'form', question: @answer.question, answer: Answer.new %>');
+    $('.new_answer').html('<%= j render 'form', path: [@answer.question, Answer.new] %>');
   <% end %>
 <% end %>

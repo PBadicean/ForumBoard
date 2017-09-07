@@ -3,5 +3,5 @@
         $('.edit_answer .answer-errors').html('<%= j message %>');
     <% end %>
 <% else %>
-  $('[data-answer-id=<%= @answer.id %>]').replaceWith('<%= j render @answer, question: @answer.question %>');
+  $('[data-answer-id=<%= @answer.id %>]').replaceWith('<%= j render @answer %>');
 <% end %>
