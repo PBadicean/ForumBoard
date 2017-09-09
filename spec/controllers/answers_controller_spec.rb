@@ -95,7 +95,7 @@ RSpec.describe AnswersController, type: :controller do
     context 'Non author tries to update answer' do
       it 'does not change answer' do
         patch :update, params: { id: answer,
-                                 question_id: question, format: :js }
+                                 answer: { body: 'new_body'}, format: :js }
         answer.reload
         expect(answer.body).to_not eq 'new_body'
       end

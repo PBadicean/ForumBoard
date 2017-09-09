@@ -25,7 +25,7 @@ feature 'Remove files from question', '
   scenario 'Non-author tries to remove file from question' do
     sign_in non_author
     visit question_path(question)
-      expect(page).to have_no_link 'удалить файл'
+    expect(page).to have_no_link 'удалить файл'
   end
 
   scenario 'Guest tries to remove file from question' do
