@@ -1,4 +1,4 @@
-$('#answer-wrapper').val('');
+$('#answer_body').val('');
 <% if @answer.errors.present? %>
     <% @answer.errors.full_messages.each do |message| %>
         $('.answer-errors').html('<%= j message %>');

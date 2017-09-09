@@ -13,7 +13,7 @@ feature 'User adds comment to question', '
     scenario 'with valid attributes' do
       Capybara.using_session('guest') do
         visit question_path(question)
-        within('.question-wrapper') { expect(page).to have_link 'Комментарии' }
+        within('.question-wrapper') { click_on 'Комментарии' }
       end
 
       Capybara.using_session('user') do
@@ -24,13 +24,11 @@ feature 'User adds comment to question', '
           click_on 'Комментарии'
           fill_in 'Комент', with: 'Lalalala'
           click_on 'Отправить'
-          wait_for_ajax
           expect(page).to have_content 'Lalalala'
-        end
-      end
+       end
+     end
 
       Capybara.using_session('guest') do
-        save_and_open_page
         expect(page).to have_content 'Lalalala'
       end
     end
@@ -43,7 +41,7 @@ feature 'User adds comment to question', '
         click_on 'Комментарии'
         fill_in 'Комент', with: ''
         click_on 'Отправить'
-        expect(page).to have_content "can't be blank"
+        expect(page).to have_content "body can't be blank"
       end
     end
   end

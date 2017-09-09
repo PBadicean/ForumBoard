@@ -6,19 +6,19 @@
 
     a.comments-link href="" Комментарии
     div.answer-comments data-id="#{@answer.id}"
-    br
-    form.new_comment id="new_comment" action="/answers/#{@answer.id}/comments" method="post" style="display: none;"
+
+    form.new_comment id="new_comment" action="/answers/#{@answer.id}/comments" method="post" accept-charset="UTF-8" style="display: none;"
       div.comment-errors
       label for="comment_body" Комент
       textarea name="comment[body]" id="comment_body"
-      br
+
       input type="submit" name="commit" value="Отправить" data-disable-with="Отправить"
 
     - if @user
       .voting-answer data-id=@answer.id
-        a.link-up-vote-answer data-question-id="#{@question.id}"  data-answer-id="#{@answer.id}" href="" За ответ
-        a.link-down-vote-answer data-question-id="#{@question.id}" data-answer-id="#{@answer.id}" href="" Против ответа
-      - if @user.id == @question.user_id && !@answer.best?
+        a.link-up-vote-answer  data-answer-id="#{@answer.id}" href="" За ответ
+        a.link-down-vote-answer data-answer-id="#{@answer.id}" href="" Против ответа
+      - if @user.id == @question.user_id && !@answer.id == @question.best_answer
           a href="/questions/#{@question.id}/answers/#{@answer.id}/accept" data-remote="true" data-method="patch" Это лучший
 
     - if @attachments.length > 0
