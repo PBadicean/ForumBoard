@@ -21,11 +21,8 @@ class AnswersController < ApplicationController
 
   def accept
     @question = @answer.question
-    if current_user.author_of(@question)
-      @question.update(best_answer: @answer.id)
-    else
-      head :forbidden
-    end
+    head :forbidden unless current_user.author_of(@question)
+    @question.update(best_answer: @answer.id)
   end
 
   private
