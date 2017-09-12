@@ -4,25 +4,27 @@ class AnswersController < ApplicationController
 
   before_action :set_answer, only: [:destroy, :accept, :update]
   before_action :check_author, only: [:destroy, :update]
-  after_action :publish_answer, only: [:create]
+  before_action :set_question, only: :create
+  after_action :publish_answer, only: :create
+
+  respond_to :js
 
   def create
-    @question = Question.find(params[:question_id])
-    @answer = @question.answers.create(answer_params.merge(user: current_user))
+    respond_with @answer = @question.answers.create(answer_params.merge(user: current_user))
   end
 
   def destroy
-    @answer.destroy
+    respond_with @answer.destroy
   end
 
   def update
-    @answer.update(answer_params)
+    respond_with @answer.update(answer_params)
   end
 
   def accept
     @question = @answer.question
-    head :forbidden unless current_user.author_of(@question)
-    @question.update(best_answer: @answer.id)
+    return head :forbidden unless current_user.author_of(@question)
+    respond_with @question.update(best_answer: @answer.id)
   end
 
   private
@@ -37,6 +39,10 @@ class AnswersController < ApplicationController
 
   def set_answer
     @answer = Answer.find(params[:id])
+  end
+
+  def set_question
+    @question = Question.find(params[:question_id])
   end
 
   def publish_answer

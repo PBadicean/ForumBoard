@@ -14,7 +14,7 @@ feature 'User-author can to delete his question', '
     visit question_path(question)
     click_on 'Удалить'
 
-    expect(page).to have_content 'Ваш вопрос успешно удален'
+    expect(page).to have_content 'Question was successfully destroyed.'
     expect(current_path).to eq questions_path
   end
 

@@ -19,7 +19,7 @@ feature 'Create question', '
       fill_in 'Содержимое', with: 'body'
       click_on 'Сохранить'
 
-      expect(page).to have_content 'Ваш вопрос успешно создан'
+      expect(page).to have_content 'Question was successfully created.'
       expect(current_path).to eq question_path(Question.last)
 
       within '.question-wrapper' do

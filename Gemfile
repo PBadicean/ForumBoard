@@ -46,5 +46,6 @@ gem 'carrierwave'
 gem 'remotipart'
 gem "cocoon"
 gem 'gon'
+gem 'responders'
 
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
