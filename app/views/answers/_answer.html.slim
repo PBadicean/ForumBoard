@@ -5,7 +5,7 @@
       p Рейтинг ответа #{answer.rating}
     = render 'answers/answer_comments', answer: answer
     - if user_signed_in?
-      = render 'comments/form', commentable: answer, comment: Comment.new
+      = render 'comments/form', commentable: answer, comment: answer.comments.build
 
     p = render 'answers/vote', answer: answer, question: answer.question
 

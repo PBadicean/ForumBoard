@@ -20,13 +20,12 @@ $ ->
       form.prev().append( JST['templates/comments/comment']({ comment: data }))
       form.find('input[type="submit"]').removeAttr('disabled')
       $('.new_comment #comment_body').val('')
-    ).fail( (error) ->
-      errorComment = $.parseJSON(error.responseText)
-      for key, value of errorComment
-        error = (key + " " + value)
+    'json').fail( (error) ->
+      $.each $.parseJSON(error.responseText)['errors'], (index, value) ->
+        error = (index + " " + value)
         form.find('.comment-errors').html('<p class="alert alert-danger">'+ error + '</p>')
       form.find('input[type="submit"]').removeAttr('disabled')
-    )
+    'json')
 
 
   if $('.question-wrapper').length == 1

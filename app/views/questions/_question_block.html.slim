@@ -5,7 +5,7 @@
     p Рейтинг вопроса #{question.rating}
   = render 'question_comments', question: question
   - if user_signed_in?
-    = render 'comments/form', commentable: question, comment: Comment.new
+    = render 'comments/form', commentable: question, comment: question.comments.build
   p = render 'vote', question: question
 
   - if current_user&.author_of(question)

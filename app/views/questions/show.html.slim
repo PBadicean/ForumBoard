@@ -5,4 +5,4 @@
   = render @question.answers_by_best
 - if user_signed_in?
   .new-answer
-    = render 'answers/form', path:[ @question, @answer ]
+    = render 'answers/form', path:[ @question, @question.answers.build ]

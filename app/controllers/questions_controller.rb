@@ -5,38 +5,33 @@ class QuestionsController < ApplicationController
 
   before_action :load_question, only: [:show, :destroy, :update]
   before_action :check_author, only: [:destroy, :update]
-  after_action :publish_question, only: [:create]
+  after_action :publish_question, only: :create
+
+  respond_to :js, only: :update
 
   def index
-    @questions = Question.all
+    respond_with @questions = Question.all
   end
 
   def show
-    @answer = @question.answers.build
-    @comment = @question.comments.build
     gon.current_user = current_user if current_user.present?
+    respond_with @question
   end
 
   def new
-    @question = Question.new
+    respond_with @question = Question.new
   end
 
   def create
-    @question = current_user.questions.new(question_params)
-    if @question.save
-      redirect_to @question, notice: 'Ваш вопрос успешно создан'
-    else
-      render :new
-    end
+    respond_with @question = current_user.questions.create(question_params)
   end
 
   def destroy
-    @question.destroy
-    redirect_to questions_path, notice: 'Ваш вопрос успешно удален'
+    respond_with @question.destroy
   end
 
   def update
-    @question.update(question_params)
+    respond_with @question.update(question_params)
   end
 
   private
