@@ -1,7 +1,5 @@
 class AttachmentsController < ApplicationController
 
-  respond_to :js
-
   def destroy
     @attachment = Attachment.find(params[:id])
     @attachable = @attachment.attachable
