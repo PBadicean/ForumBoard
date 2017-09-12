@@ -7,8 +7,6 @@ class QuestionsController < ApplicationController
   before_action :check_author, only: [:destroy, :update]
   after_action :publish_question, only: :create
 
-  respond_to :js, only: :update
-
   def index
     respond_with @questions = Question.all
   end

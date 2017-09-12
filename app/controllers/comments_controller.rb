@@ -3,8 +3,6 @@ class CommentsController < ApplicationController
   before_action :set_commentable
   after_action :publish_comment
 
-  respond_to :json, only: :create
-
   def create
     @comment = @commentable.comments.create(comment_params.merge(user: current_user))
     respond_with @comment, json: @comment

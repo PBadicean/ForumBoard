@@ -13,6 +13,11 @@ RSpec.describe AttachmentsController, type: :controller do
         expect(assigns(:attachment)).to eq attachment
       end
 
+      it 'assigns attachable to @attachable' do
+        delete :destroy, params: { id: attachment, format: :js }
+        expect(assigns(:attachable)).to eq question
+      end
+
       it 'destroys attachment' do
         attachment
         expect { delete :destroy, params: { id: attachment, format: :js
