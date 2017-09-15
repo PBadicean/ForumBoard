@@ -1,4 +1,6 @@
 h1 = 'Все вопросы'
+h4 = current_user.email if user_signed_in?
+
 .questions-list
   - @questions.each do |question|
     = render 'question', question: question
