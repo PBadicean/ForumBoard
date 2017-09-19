@@ -7,12 +7,13 @@ feature 'User can sign in with facebook', '
 ' do
 
   given!(:user) { create(:user) }
-
+#
   scenario 'User tries to register with facebook' do
     visit new_user_session_path
-    click_on 'Sign in with facebook'
     mock_facebook_auth_hash
+    click_on 'Sign in with Facebook'
+
     expect(current_path).to eq root_path
-    expect(page).to have_content 'Вход в систему выполнен с учетной записью из Facebook.'
+    expect(page).to have_content 'Successfully authenticated from Facebook account.'
   end
 end
