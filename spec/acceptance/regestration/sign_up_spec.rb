@@ -9,12 +9,13 @@ feature 'Guest sign up', %q{
   scenario 'Guest tries to sign up' do
     visit new_user_registration_path
 
-    fill_in 'Email', with: 'artem@daun.com'
+    fill_in 'Email', with: 'test@mail.ru'
     fill_in 'Password', with: '123456789'
     fill_in 'Password confirmation', with:'123456789'
     click_on 'Sign up'
 
-    expect(current_path).to eq root_path
-    expect(page).to have_content 'Welcome! You have signed up successfully.'
+    open_email('test@mail.ru')
+    current_email.click_link 'Confirm my account'
+    expect(current_path).to eq new_user_session_path
   end
 end

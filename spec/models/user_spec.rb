@@ -5,6 +5,7 @@ RSpec.describe User do
   it { should have_many :answers }
   it { should have_many :votes }
   it { should have_many :comments }
+  it { should have_many(:authorizations).dependent(:destroy) }
 
 
   it { should validate_presence_of :email }
@@ -101,11 +102,10 @@ RSpec.describe User do
         it 'creates authorization for user' do
           user = User.find_for_oauth(auth)
           expect(user.authorizations).to_not be_empty
-
         end
+
         it 'creates authorization with provider and uid'do
           authorization = User.find_for_oauth(auth).authorizations.first
-
           expect(authorization.provider).to eq auth.provider
           expect(authorization.uid).to eq auth.uid
         end
