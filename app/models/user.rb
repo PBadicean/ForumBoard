@@ -1,5 +1,7 @@
 class User < ApplicationRecord
 
+  TEMP_EMAIL_REGEX = /\Achange@me/
+
   has_many :votes
   has_many :comments
   has_many :questions
@@ -9,7 +11,7 @@ class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable, :confirmable,
-         :recoverable, :rememberable, :trackable, :validatable, :omniauthable, omniauth_providers: [:facebook]
+         :recoverable, :rememberable, :trackable, :validatable, :omniauthable, omniauth_providers: [:facebook, :twitter]
 
   def author_of(resources)
     resources.user_id == self.id
@@ -23,13 +25,23 @@ class User < ApplicationRecord
     authorization = Authorization.where(provider: auth.provider, uid: auth.uid.to_s).first
     return authorization.user if authorization
 
-    email = auth.info.email
+    if auth.info.email
+      email = auth.info.email
+    else
+      email = "change@me-#{auth.uid}-#{auth.provider}.com"
+    end
     user = User.where(email: email).first
-    password = Devise.friendly_token[0, 20]
-    user ||= User.new(email: email, password: password, password_confirmation: password)
-    user.skip_confirmation!
-    user.save!
-    user.authorizations.create(provider: auth.provider, uid: auth.uid)
+
+    unless user
+      user = User.new(email: email, password: Devise.friendly_token[0, 20])
+      user.skip_confirmation!
+      user.save!
+    end
+    user.authorizations.create!(provider: auth.provider, uid: auth.uid.to_s) if user
     user
+  end
+
+  def email_verified
+    email !~ TEMP_EMAIL_REGEX
   end
 end
