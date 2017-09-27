@@ -7,7 +7,7 @@ feature 'User can sign in with facebook', '
 ' do
 
   given(:user) { create(:user) }
-#
+
   scenario 'User tries to register with facebook' do
     visit new_user_session_path
     mock_facebook_auth_hash
