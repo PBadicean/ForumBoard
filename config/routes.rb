@@ -24,5 +24,5 @@ Rails.application.routes.draw do
 
   mount ActionCable.server => '/cable'
 
-  match '/users/:id/finish_signup' => 'users#finish_signup', via: [:get, :patch], :as => :finish_signup
+  match '/users/:id/finish_sign_up', to: 'users#finish_sign_up', via: %i[get patch], as: :finish_sign_up
 end

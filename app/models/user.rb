@@ -25,11 +25,7 @@ class User < ApplicationRecord
     authorization = Authorization.where(provider: auth.provider, uid: auth.uid.to_s).first
     return authorization.user if authorization
 
-    if auth.info.email
-      email = auth.info.email
-    else
-      email = "change@me-#{auth.uid}-#{auth.provider}.com"
-    end
+    auth.info.email ? email = auth.info.email : email = "change@me-#{auth.uid}-#{auth.provider}.com"
     user = User.where(email: email).first
 
     unless user
