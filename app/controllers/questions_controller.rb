@@ -3,6 +3,7 @@ class QuestionsController < ApplicationController
   include PublicShowAndIndex
   include Voted
 
+  before_action :ensure_signup_complete, except: [:show, :index]
   before_action :load_question, only: [:show, :destroy, :update]
   before_action :check_author, only: [:destroy, :update]
   after_action :publish_question, only: :create

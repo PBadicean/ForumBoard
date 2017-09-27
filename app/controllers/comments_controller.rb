@@ -1,5 +1,6 @@
 class CommentsController < ApplicationController
 
+  before_action :ensure_signup_complete
   before_action :set_commentable
   after_action :publish_comment
 
