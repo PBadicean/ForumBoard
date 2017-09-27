@@ -14,6 +14,7 @@ RSpec.describe UsersController, type: :controller do
     it 'updates params user of email' do
       patch :finish_signup, params: { id: @user.id, user: { email: 'polina@gmail.com' } }
       @user.reload
+
       expect(@user.unconfirmed_email).to eq 'polina@gmail.com'
     end
   end
