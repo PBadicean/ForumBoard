@@ -2,6 +2,7 @@ class AnswersController < ApplicationController
 
   include Voted
 
+  before_action :ensure_signup_complete
   before_action :set_answer, only: [:destroy, :accept, :update]
   before_action :check_author, only: [:destroy, :update]
   after_action :publish_answer, only: :create

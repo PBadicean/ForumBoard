@@ -10,7 +10,13 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
   end
 
   def twitter
-    render json: 5555 
+    if @user.email_verified?
+      sign_in_and_redirect @user, event: :authentication
+      set_flash_message(:notice, :success, kind: 'Twitter') if is_navigational_format?
+    else
+      sign_in(@user)
+      redirect_to finish_signup_path(@user)
+    end
   end
 
   private

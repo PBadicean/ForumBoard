@@ -41,7 +41,7 @@ class User < ApplicationRecord
     user
   end
 
-  def email_verified
+  def email_verified?
     email !~ TEMP_EMAIL_REGEX
   end
 end

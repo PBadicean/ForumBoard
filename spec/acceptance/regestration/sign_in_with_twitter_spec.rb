@@ -14,7 +14,7 @@ feature 'User can sign in/up with twitter', '
     mock_twitter_auth_hash
 
     fill_in 'Email', with: 'new@mail.com'
-    click_on 'Отправить'
+    click_on 'Продолжить'
 
     open_email('new@mail.com')
     current_email.click_link 'Confirm my account'

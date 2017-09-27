@@ -143,19 +143,19 @@ RSpec.describe User do
   end
 
 
-  describe '#email_verified' do
+  describe '#email_verified?' do
     let(:user) { create(:user) }
     let(:invalid_user) { create(:user, email: 'change@me') }
 
     context 'Email is not fake' do
       it 'returns true' do
-        expect(user.email_verified).to be_truthy
+        expect(user.email_verified?).to be_truthy
       end
     end
 
     context 'Email is fake' do
       it 'returns false' do
-        expect(invalid_user.email_verified).to be_falsey
+        expect(invalid_user.email_verified?).to be_falsey
       end
     end
   end

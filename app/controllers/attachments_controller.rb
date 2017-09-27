@@ -1,5 +1,7 @@
 class AttachmentsController < ApplicationController
 
+  before_action :ensure_signup_complete
+
   def destroy
     @attachment = Attachment.find(params[:id])
     @attachable = @attachment.attachable
