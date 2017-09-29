@@ -48,6 +48,7 @@ gem 'remotipart'
 gem "cocoon"
 gem 'gon'
 gem 'responders'
+gem 'cancancan'
 gem 'omniauth'
 gem 'omniauth-facebook'
 gem 'omniauth-twitter'
