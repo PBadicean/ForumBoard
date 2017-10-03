@@ -1,6 +1,16 @@
 require "application_responder"
 
 class ApplicationController < ActionController::Base
+  before_action :authenticate_user!
+
+  self.responder = ApplicationResponder
+  respond_to :js, :html, :json
+
+  protect_from_forgery with: :exception
+
+  rescue_from CanCan::AccessDenied do |exception|
+    redirect_to root_url, alert: exception.message
+  end
 
   def ensure_signup_complete
     return if action_name == 'finish_signup'
@@ -9,11 +19,4 @@ class ApplicationController < ActionController::Base
       redirect_to finish_signup_path(current_user)
     end
   end
-
-  self.responder = ApplicationResponder
-  respond_to :js, :html, :json
-
-  protect_from_forgery with: :exception
-
-  before_action :authenticate_user!
 end
