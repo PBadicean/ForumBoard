@@ -6,5 +6,5 @@ h4 = current_user.email if user_signed_in?
     = render 'question', question: question
 
 br
-- if user_signed_in?
+- if can?(:create, Question)
   = link_to 'Задать вопрос', new_question_path

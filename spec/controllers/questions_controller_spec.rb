@@ -234,7 +234,7 @@ RSpec.describe QuestionsController, type: :controller do
     end
 
     context 'Non-author the vote tries revote' do
-      it 'destroy vote of the hes author' do
+      it 'not destroy vote of the hes author' do
         vote
         expect do
           delete :revote, params: { id: other_user_question, format: :json }
