@@ -1,11 +1,9 @@
 class AnswersController < ApplicationController
-
   include Voted
 
   before_action :ensure_signup_complete
-  before_action :set_answer, only: [:destroy, :accept, :update]
-  before_action :check_author, only: [:destroy, :update]
   after_action :publish_answer, only: :create
+  load_and_authorize_resource except: :accept
 
   def create
     @question = Question.find(params[:question_id])
@@ -21,23 +19,16 @@ class AnswersController < ApplicationController
   end
 
   def accept
+    @answer = Answer.find(params[:id])
     @question = @answer.question
-    return head :forbidden unless current_user.author_of(@question)
+    authorize! :accept, @answer
     respond_with @question.update(best_answer: @answer.id)
   end
 
   private
 
-  def check_author
-    head :forbidden unless current_user.author_of(@answer)
-  end
-
   def answer_params
     params.require(:answer).permit(:body, attachments_attributes: [:id, :file, :_destroy])
-  end
-
-  def set_answer
-    @answer = Answer.find(params[:id])
   end
 
   def publish_answer

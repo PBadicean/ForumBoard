@@ -5,6 +5,7 @@ class Ability
 
   def initialize(user)
     @user = user
+    @objects = [Question, Answer]
     if user
       user.admin? ? admin_abilities : user_abilities
     else
@@ -22,18 +23,30 @@ class Ability
 
   def user_abilities
     guest_abilities
-    can :update, [Question, Answer], user: user
-    can :destroy, [Question, Answer], user: user
+    can :update, @objects, user: user
+    can :destroy, @objects, user: user
     can :create, [Question, Comment, Answer]
 
-    can :up_vote, [Question, Answer].each do |votable|
-      !user.author_of(votable) && !user.was_voting(votable)
+    can :up_vote, @objects.each do |votable|
+      can_vote(votable)
     end
-    can :down_vote, [Question, Answer].each do |votable|
-      !user.author_of(votable) && !user.was_voting(votable)
+    can :down_vote, @objects.each do |votable|
+      can_vote(votable)
     end
-    can :revote, [Question, Answer].each do |votable|
+    can :revote, @objects.each do |votable|
       user.was_voting(votable)
     end
+
+    can :accept, Answer do |answer|
+      user.author_of(answer.question) && !answer.best?
+    end
+
+    can :destroy, Attachment do |attachment|
+      user.author_of(attachment.attachable)
+    end
+  end
+
+  def can_vote(votable)
+    !user.author_of(votable) && !user.was_voting(votable)
   end
 end

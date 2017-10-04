@@ -3,26 +3,24 @@
     = answer.body
     .answer-rating data-id=answer.id
       p Рейтинг ответа #{answer.rating}
+
     = render 'answers/answer_comments', answer: answer
-    - if user_signed_in?
-      = render 'comments/form', commentable: answer, comment: answer.comments.build
+    = render 'comments/form', commentable: answer, comment: answer.comments.build
+    = render 'answers/vote', answer: answer, question: answer.question
+    = render 'answers/attachments', answer: answer
 
-    p = render 'answers/vote', answer: answer, question: answer.question
-
-    .answer-attachments
-      = render 'answers/attachments', answer: answer
-
-    - if current_user&.author_of(answer.question) && !answer.best?
+    - if can?(:accept, answer)
       = link_to 'Это лучший',
         accept_answer_path(answer),
         method: :patch,
         remote: true
 
-    - if current_user&.author_of(answer)
+    - if can?(:destroy, answer)
       = link_to "Удалить ответ",
         answer_path(answer),
         method: :delete,
         remote: true
 
+    - if can?(:update, answer)
       = link_to 'Редактировать', '', class: 'edit-answer-link'
       = render 'answers/form', path: [answer]

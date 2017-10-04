@@ -1,8 +1,8 @@
 .voting-question
-  - if current_user&.was_voting(question)
+  - if can?(:revote, question)
     = link_to 'Переголосовать', '', class: 'revote',
       data: { question_id: question.id }
-  - elsif current_user.present? && !current_user.author_of(question)
+  - elsif can?(:up_vote, question) && can?(:down_vote, question)
     = link_to 'За вопрос', '', class: 'link-up-vote',
       data: { question_id: question.id }
     = link_to 'Против вопроса', '', class: 'link-down-vote',

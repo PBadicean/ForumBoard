@@ -2,6 +2,7 @@ require "application_responder"
 
 class ApplicationController < ActionController::Base
   before_action :authenticate_user!
+  check_authorization unless :devise_controller?
 
   self.responder = ApplicationResponder
   respond_to :js, :html, :json
