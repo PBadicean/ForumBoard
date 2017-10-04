@@ -1,9 +1,10 @@
 - unless answer.attachments.empty?
-  p Файлы:
-  ul
-    - answer.attachments.each do |a|
-      li id="attachment-#{a.id}"
-        = link_to a.file.identifier, a.file.url
+  .answer-attachments
+    p Файлы:
+    ul
+      - answer.attachments.each do |a|
+        li id="attachment-#{a.id}"
+          = link_to a.file.identifier, a.file.url
 
-        - if current_user&.author_of(answer)
-          = link_to 'удалить файл', attachment_path(a), method: :delete, remote: true
+          - if can?(:destroy, a)
+            = link_to 'удалить файл', attachment_path(a), method: :delete, remote: true

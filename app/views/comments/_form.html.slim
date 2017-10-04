@@ -1,5 +1,6 @@
-= form_for [commentable, comment] do |f|
-  .comment-errors
-  = f.label :body, 'Комент'
-  = f.text_area :body
-  p= f.submit 'Отправить'
+- if can?(:create, Comment)
+  = form_for [commentable, comment] do |f|
+    .comment-errors
+    = f.label :body, 'Комент'
+    = f.text_area :body
+    p= f.submit 'Отправить'

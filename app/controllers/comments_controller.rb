@@ -1,5 +1,7 @@
 class CommentsController < ApplicationController
 
+  authorize_resource
+
   before_action :ensure_signup_complete
   before_action :set_commentable
   after_action :publish_comment

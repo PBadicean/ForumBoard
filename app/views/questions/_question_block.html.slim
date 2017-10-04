@@ -4,15 +4,15 @@
   .question-rating
     p Рейтинг вопроса #{question.rating}
   = render 'question_comments', question: question
-  - if user_signed_in?
-    = render 'comments/form', commentable: question, comment: question.comments.build
-  p = render 'vote', question: question
+  = render 'comments/form', commentable: question, comment: question.comments.build
+  = render 'vote', question: question
+  = render  'attachments', question: question
 
-  - if current_user&.author_of(question)
+  - if can?(:destroy, question)
     = link_to "Удалить",
       question,
       method: :delete
 
+  - if can?(:update, question)
     = link_to 'Редактировать', '', class: 'edit-question-link'
     = render 'form', question: question, ajax: true
-  = render  'attachments', question: question
