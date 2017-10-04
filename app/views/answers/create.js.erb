@@ -5,10 +5,10 @@ $('#answer_body').val('');
     <% end %>
 <% else %>
   <% if remotipart_submitted? %>
-    $('.answers').append("<%= j "#{render @answer, question: @question }" %>");
+    $('.answers').append("<%= j "#{render @answer, question: @answer.question }" %>");
     $('.new-answer').html("<%= j "#{render 'form', path: [@answer.question, Answer.new] }" %>");
   <% else %>
-    $('.answers').append('<%= j render @answer, question: @question %>');
+    $('.answers').append('<%= j render @answer, question: @answer.question %>');
     $('.new_answer').html('<%= j render 'form', path: [@answer.question, Answer.new] %>');
   <% end %>
 <% end %>
