@@ -1,11 +1,14 @@
 require "application_responder"
 
 class ApplicationController < ActionController::Base
-  before_action :authenticate_user!
-  check_authorization unless :devise_controller?
 
   self.responder = ApplicationResponder
   respond_to :js, :html, :json
+
+  before_action :authenticate_user!
+  before_action :ensure_signup_complete, except: :devise_controller? 
+
+  check_authorization unless :devise_controller?
 
   protect_from_forgery with: :exception
 
@@ -20,4 +23,5 @@ class ApplicationController < ActionController::Base
       redirect_to finish_signup_path(current_user)
     end
   end
+
 end

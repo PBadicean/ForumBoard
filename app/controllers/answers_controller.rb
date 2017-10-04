@@ -1,7 +1,6 @@
 class AnswersController < ApplicationController
   include Voted
 
-  before_action :ensure_signup_complete
   after_action :publish_answer, only: :create
   load_and_authorize_resource except: :accept
 
@@ -20,9 +19,8 @@ class AnswersController < ApplicationController
 
   def accept
     @answer = Answer.find(params[:id])
-    @question = @answer.question
     authorize! :accept, @answer
-    respond_with @question.update(best_answer: @answer.id)
+    respond_with @answer.question.update(best_answer: @answer.id)
   end
 
   private

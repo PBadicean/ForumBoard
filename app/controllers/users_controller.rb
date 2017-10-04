@@ -1,5 +1,4 @@
 class UsersController < ApplicationController
-  before_action :ensure_signup_complete
 
   def finish_signup
     @user = User.find(params[:id])

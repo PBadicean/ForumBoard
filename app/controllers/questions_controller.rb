@@ -3,9 +3,8 @@ class QuestionsController < ApplicationController
   include PublicShowAndIndex
   include Voted
 
-  after_action :publish_question, only: :create
-
   load_and_authorize_resource
+  after_action :publish_question, only: :create
 
   def index
     respond_with @questions = Question.all
