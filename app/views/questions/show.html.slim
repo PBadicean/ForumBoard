@@ -1,7 +1,6 @@
 = render 'question_block', question: @question
-
+h3 Ответы
 .answers
-  h3 Ответы
   = render @question.answers_by_best
 - if user_signed_in?
   .new-answer

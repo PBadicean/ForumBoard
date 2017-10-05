@@ -6,14 +6,16 @@ class ApplicationController < ActionController::Base
   respond_to :js, :html, :json
 
   before_action :authenticate_user!
-  before_action :ensure_signup_complete, except: :devise_controller? 
-
+  before_action :ensure_signup_complete, except: :devise_controller?
+  protect_from_forgery with: :exception
   check_authorization unless :devise_controller?
 
-  protect_from_forgery with: :exception
-
   rescue_from CanCan::AccessDenied do |exception|
-    redirect_to root_url, alert: exception.message
+    respond_to do |format|
+      format.html { redirect_to root_url, alert: exception.message }
+      format.json { render json: { error: exception.message }, status: :forbidden }
+      format.js   { render json: exception.message, status: :forbidden }
+    end
   end
 
   def ensure_signup_complete
