@@ -113,10 +113,6 @@ RSpec.describe AnswersController, type: :controller do
     context 'Author tries to select best answer' do
       before { patch :accept, params: { id: answer, format: :js } }
 
-      it 'assigns question of answer to @question' do
-        expect(assigns(:answer).question).to eq answer.question
-      end
-
       it 'checks that answer is first in list answers of question' do
         expect(assigns(:answer).question.best_answer).to eq answer.id
       end

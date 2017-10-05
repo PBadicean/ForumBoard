@@ -9,11 +9,11 @@
     = render 'answers/vote', answer: answer, question: answer.question
     = render 'answers/attachments', answer: answer
 
-    / - if can?(:accept, answer)
-    = link_to 'Это лучший',
-      accept_answer_path(answer),
-      method: :patch,
-      remote: true
+    - if can?(:accept, answer)
+      = link_to 'Это лучший',
+        accept_answer_path(answer),
+        method: :patch,
+        remote: true
 
     - if can?(:destroy, answer)
       = link_to "Удалить ответ",
