@@ -45,6 +45,8 @@ class Ability
     end
   end
 
+  private
+
   def can_vote(votable)
     !user.author_of(votable) && !user.was_voting(votable)
   end
