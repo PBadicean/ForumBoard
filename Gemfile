@@ -33,6 +33,7 @@ end
 group :test do
   gem 'launchy'
   gem 'shoulda-matchers', git: 'https://github.com/thoughtbot/shoulda-matchers.git', branch: 'rails-5'
+  gem 'json_spec'
 end
 
 gem 'skim'
@@ -53,5 +54,7 @@ gem 'omniauth'
 gem 'omniauth-facebook'
 gem 'omniauth-twitter'
 gem 'capybara-email'
+gem 'doorkeeper'
+gem 'active_model_serializers', '~> 0.9.3'
 
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
