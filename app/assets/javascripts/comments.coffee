@@ -21,12 +21,10 @@ $ ->
       form.find('input[type="submit"]').removeAttr('disabled')
       $('.new_comment #comment_body').val('')
     'json').fail( (error) ->
-      $.each $.parseJSON(error.responseText)['errors'], (index, value) ->
-        error = (index + " " + value)
-        form.find('.comment-errors').html('<p class="alert alert-danger">'+ error + '</p>')
+      $.each $.parseJSON(error.responseText).errors, (index, value) ->
+        form.find('.comment-errors').html(index + " " + value)
       form.find('input[type="submit"]').removeAttr('disabled')
     'json')
-
 
   if $('.question-wrapper').length == 1
     App.cable.subscriptions.create {
