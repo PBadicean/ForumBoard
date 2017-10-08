@@ -70,5 +70,9 @@ describe 'Profile API' do
     it 'not contains authenticated user' do
       expect(response.body).to_not be_json_eql(me.to_json)
     end
+
+    it 'contains all users' do
+      expect(response.body).to_not be_json_eql(users.to_json)
+    end
   end
 end
