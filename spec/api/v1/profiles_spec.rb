@@ -25,7 +25,7 @@ describe 'Profile API' do
       expect(response).to be_success
     end
 
-    %w(id email created_at updated_at admin reputation).each do |attr|
+    %w(id email created_at updated_at admin).each do |attr|
       it "contains #{attr}" do
         expect(response.body).to be_json_eql(me.send(attr.to_sym).to_json).at_path(attr)
       end
@@ -34,6 +34,20 @@ describe 'Profile API' do
     %w(password encrypted_password).each do |attr|
       it "does not contain #{attr}" do
         expect(response.body).to_not have_json_path(attr)
+      end
+    end
+  end
+
+  describe 'GET #index' do
+    context 'Unauthorized' do
+      it 'returns 401 status if there is not access token' do
+        get '/api/v1/profiles', params: { format: :json }
+        expect(response.status).to eq 401
+      end
+
+      it 'returns 401 status if access token is invalid' do
+        get '/api/v1/profiles', params: { access_token: '12345', format: :json }
+        expect(response.status).to eq 401
       end
     end
   end
