@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  use_doorkeeper
   devise_for :users, controllers: { omniauth_callbacks: 'omniauth_callbacks' }
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   concern :votable do
@@ -16,6 +17,14 @@ Rails.application.routes.draw do
   resources :questions, concerns: %i[votable commentable] do
     resources :answers, concerns: %i[votable commentable], shallow: true do
       patch :accept, on: :member
+    end
+  end
+
+  namespace :api do
+    namespace :v1 do
+      resource :profiles do
+        get :me, on: :collection
+      end
     end
   end
 
