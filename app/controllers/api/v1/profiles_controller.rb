@@ -5,7 +5,7 @@ class Api::V1::ProfilesController < Api::V1::BaseController
   end
 
   def index
-    render json: 5555
+    respond_with User.where.not(id: current_resource_owner.id)
   end
 
 end
