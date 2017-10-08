@@ -5,9 +5,9 @@ class ApplicationController < ActionController::Base
   self.responder = ApplicationResponder
   respond_to :js, :html, :json
   protect_from_forgery with: :exception
+  before_action :ensure_signup_complete, except: :devise_controller?
 
   before_action :authenticate_user!
-  before_action :ensure_signup_complete, except: :devise_controller?
   check_authorization unless :devise_controller?
 
   rescue_from CanCan::AccessDenied do |exception|
