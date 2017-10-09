@@ -50,29 +50,29 @@ describe 'Profile API' do
         expect(response.status).to eq 401
       end
     end
-  end
 
-  context 'authorized' do
-    let!(:me) { create(:user) }
-    let(:access_token) { create(:access_token, resource_owner_id: me.id) }
-    let!(:users) { create_list(:user, 2) }
+    context 'authorized' do
+      let!(:users) { create_list(:user, 2) }
+      let(:me) { create(:user) }
+      let(:access_token) { create(:access_token, resource_owner_id: me.id) }
 
-    before { get '/api/v1/profiles/', params: { format: :json, access_token: access_token.token } }
+      before { get '/api/v1/profiles/', params: { format: :json, access_token: access_token.token } }
 
-    it 'returns 200 status' do
-      expect(response).to be_success
-    end
+      it 'returns 200 status' do
+        expect(response).to be_success
+      end
 
-    it 'have json size 1' do
-      expect(response.body).to have_json_size(1)
-    end
+      it 'have json size 1' do
+        expect(response.body).to have_json_size(2)
+      end
 
-    it 'not contains authenticated user' do
-      expect(response.body).to_not be_json_eql(me.to_json)
-    end
+      it 'contains all users' do
+        expect(response.body).to be_json_eql(users.to_json)
+      end
 
-    it 'contains all users' do
-      expect(response.body).to_not be_json_eql(users.to_json)
+      it 'not contains authenticated user' do
+        expect(response.body).to_not be_json_eql(me.to_json)
+      end
     end
   end
 end

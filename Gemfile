@@ -55,6 +55,5 @@ gem 'omniauth-facebook'
 gem 'omniauth-twitter'
 gem 'capybara-email'
 gem 'doorkeeper'
-gem 'active_model_serializers', '~> 0.9.3'
 
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]

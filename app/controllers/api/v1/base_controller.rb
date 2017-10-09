@@ -1,6 +1,4 @@
-class Api::V1::BaseController < ApplicationController
-  skip_before_action :authenticate_user!
-
+class Api::V1::BaseController < ActionController::Base
   before_action :doorkeeper_authorize!
   respond_to :json
 
