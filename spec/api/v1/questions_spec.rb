@@ -74,8 +74,8 @@ describe 'Questions API' do
     context 'authorized' do
       let(:access_token) { create(:access_token) }
       let!(:answer)      { create(:answer, question: question) }
-      let!(:attachment)   { create(:attachment, attachable: question) }
-      let!(:comment)      { create(:comment, commentable: question) }
+      let!(:attachment)  { create(:attachment, attachable: question) }
+      let!(:comment)     { create(:comment, commentable: question) }
 
       before { get "/api/v1/questions/#{question.id}", params: { format: :json, access_token: access_token.token } }
 
@@ -115,7 +115,7 @@ describe 'Questions API' do
         end
 
         it 'contains attachment url' do
-          expect(response.body).to be_json_eql(attachment.file.url.to_json).at_path('question/attachments/0/file/url')
+          expect(response.body).to be_json_eql(attachment.file.url.to_json).at_path('question/attachments/0/url')
         end
 
         %w(created_at updated_at attachable_id attachable_type).each do |attr|
