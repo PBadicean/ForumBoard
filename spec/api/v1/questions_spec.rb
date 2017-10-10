@@ -74,7 +74,8 @@ describe 'Questions API' do
     context 'authorized' do
       let(:access_token) { create(:access_token) }
       let!(:answer)      { create(:answer, question: question) }
-      let!(:attachment)  { create(:attachment, attachable: question) }
+      let!(:attachment)   { create(:attachment, attachable: question) }
+      let!(:comment)      { create(:comment, commentable: question) }
 
       before { get "/api/v1/questions/#{question.id}", params: { format: :json, access_token: access_token.token } }
 
@@ -86,7 +87,7 @@ describe 'Questions API' do
         expect(response.body).to have_json_size(1)
       end
 
-      %w(id body title created_at updated_at best_answer).each do |attr|
+      %w(id body title created_at updated_at best_answer user_id).each do |attr|
         it "contains parameter question #{attr}" do
           expect(response.body).to be_json_eql(question.send(attr.to_sym).to_json).at_path("question/#{attr}")
         end
@@ -101,7 +102,7 @@ describe 'Questions API' do
           expect(response.body).to have_json_size(1).at_path("question/answers")
         end
 
-        %w(id body created_at updated_at).each do |attr|
+        %w(id body created_at updated_at user_id).each do |attr|
           it "contains #{attr}" do
             expect(response.body).to be_json_eql(answer.send(attr.to_sym).to_json).at_path("question/answers/0/#{attr}")
           end
@@ -120,6 +121,18 @@ describe 'Questions API' do
         %w(created_at updated_at attachable_id attachable_type).each do |attr|
           it "doesn't contains #{attr}" do
             expect(response.body).to_not be_json_eql(attachment.send(attr.to_sym).to_json)
+          end
+        end
+      end
+
+      context 'comments' do
+        it 'include in question attachments' do
+          expect(response.body).to have_json_size(1).at_path("question/attachments")
+        end
+
+        %w(created_at updated_at commentable_type commentable_id body user_id).each do |attr|
+          it "contains #{attr}" do
+            expect(response.body).to be_json_eql(comment.send(attr.to_sym).to_json).at_path("question/comments/0/#{attr}")
           end
         end
       end
