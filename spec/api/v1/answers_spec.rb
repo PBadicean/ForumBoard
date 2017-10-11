@@ -10,7 +10,8 @@ describe 'Answers API' do
   describe 'GET /show' do
     context 'unauthorized' do
       it 'returns 401 status if there is no access_token' do
-        get "/api/v1/questions/#{question.id}/answers/#{answer.id}", params: { format: :json }
+        get "/api/v1/questions/#{question.id}/answers/#{answer.id}",
+          params: { format: :json }
         expect(response.status).to eq 401
       end
 
@@ -35,7 +36,8 @@ describe 'Answers API' do
 
       %w(id body created_at updated_at user_id question_id).each do |attr|
         it "contains #{attr}" do
-          expect(response.body).to be_json_eql(answer.send(attr.to_sym).to_json).at_path("answer/#{attr}")
+          expect(response.body).to be_json_eql(
+            answer.send(attr.to_sym).to_json).at_path("answer/#{attr}")
         end
       end
 
@@ -45,24 +47,26 @@ describe 'Answers API' do
         end
 
         it 'contains attachment url' do
-          expect(response.body).to be_json_eql(attachment.file.url.to_json).at_path('answer/attachments/0/url')
+          expect(response.body).to be_json_eql(
+            attachment.file.url.to_json).at_path('answer/attachments/0/url')
         end
 
         %w(created_at updated_at attachable_id attachable_type).each do |attr|
           it "doesn't contains #{attr}" do
-            expect(response.body).to_not be_json_eql(attachment.send(attr.to_sym).to_json)
+            expect(response.body).to_not have_json_path("answer/attachments/0/#{attr}")
           end
         end
       end
 
       context 'comments' do
-        it 'include in answer attachments' do
-          expect(response.body).to have_json_size(1).at_path("answer/attachments")
+        it 'include in answer comments' do
+          expect(response.body).to have_json_size(1).at_path("answer/comments")
         end
 
-        %w(created_at updated_at commentable_type commentable_id body user_id).each do |attr|
+        %w(id created_at updated_at commentable_type commentable_id body user_id).each do |attr|
           it "contains #{attr}" do
-            expect(response.body).to be_json_eql(comment.send(attr.to_sym).to_json).at_path("answer/comments/0/#{attr}")
+            expect(response.body).to be_json_eql(
+              comment.send(attr.to_sym).to_json).at_path("answer/comments/0/#{attr}")
           end
         end
       end
@@ -91,6 +95,13 @@ describe 'Answers API' do
         expect(response).to be_success
       end
 
+      it 'returns answer of question' do
+        post "/api/v1/questions/#{question.id}/answers",
+        params: { answer: attributes_for(:answer), question_id: question,
+                  access_token: access_token.token, format: :json }
+        expect(response.body).to have_json_size(1)
+      end
+
       it 'saves the new answer for question' do
         expect do
           post "/api/v1/questions/#{question.id}/answers",
@@ -104,7 +115,8 @@ describe 'Answers API' do
           post "/api/v1/questions/#{question.id}/answers",
           params: { answer: attributes_for(:answer), question_id: question,
                     access_token: access_token.token, format: :json }
-          expect(response.body).to be_json_eql(assigns(:answer).send(attr.to_sym).to_json).at_path("answer/#{attr}")
+          expect(response.body).to be_json_eql(
+            assigns(:answer).send(attr.to_sym).to_json).at_path("answer/#{attr}")
         end
       end
     end
