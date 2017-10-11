@@ -29,7 +29,7 @@ describe 'Questions API' do
         expect(response.body).to have_json_size(2).at_path('questions')
       end
 
-      %w(id body title created_at updated_at uder_id).each do |attr|
+      %w(id body title created_at updated_at user_id).each do |attr|
         it "question object contains #{attr}" do
           expect(response.body).to be_json_eql(question.send(attr.to_sym).to_json).at_path("questions/0/#{attr}")
         end
@@ -41,7 +41,6 @@ describe 'Questions API' do
     let!(:question) { create(:question) }
 
     context 'unauthorized' do
-
       it 'returns 401 status if there is no access_token' do
         get "/api/v1/questions/#{question.id}", params: { format: :json }
         expect(response.status).to eq 401
@@ -157,7 +156,15 @@ describe 'Questions API' do
         end.to change(Question, :count).by(1)
       end
 
-      %w[id body created_at updated_at user_id ].each do |attr|
+      it 'returns one question' do
+        post "/api/v1/questions/",
+        params: { question: attributes_for(:question),
+                  access_token: access_token.token, format: :json }
+        expect(response.body).to have_json_size(1)
+      end
+
+
+      %w[id title body created_at updated_at user_id ].each do |attr|
         it "contains question #{attr}" do
           post "/api/v1/questions",
           params: { question: attributes_for(:question),
