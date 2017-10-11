@@ -18,7 +18,6 @@ describe 'Questions API' do
       let(:access_token) { create(:access_token) }
       let!(:questions)   { create_list(:question, 2) }
       let(:question)     { questions.first }
-      let!(:answer)      { create(:answer, question: question) }
 
       before { get '/api/v1/questions', params: { format: :json, access_token: access_token.token } }
 
@@ -32,24 +31,7 @@ describe 'Questions API' do
 
       %w(id body title created_at updated_at).each do |attr|
         it "question object contains #{attr}" do
-          question = questions.first
           expect(response.body).to be_json_eql(question.send(attr.to_sym).to_json).at_path("questions/0/#{attr}")
-        end
-      end
-
-      it 'question object contains schort_title' do
-        expect(response.body).to be_json_eql(question.title.truncate(10).to_json).at_path("questions/0/schort_title")
-      end
-
-      context 'answers' do
-        it 'include in question object' do
-          expect(response.body).to have_json_size(1).at_path("questions/0/answers")
-        end
-
-        %w(id body created_at updated_at).each do |attr|
-          it "contains #{attr}" do
-            expect(response.body).to be_json_eql(answer.send(attr.to_sym).to_json).at_path("questions/0/answers/0/#{attr}")
-          end
         end
       end
     end
@@ -89,12 +71,14 @@ describe 'Questions API' do
 
       %w(id body title created_at updated_at best_answer user_id).each do |attr|
         it "contains parameter question #{attr}" do
-          expect(response.body).to be_json_eql(question.send(attr.to_sym).to_json).at_path("question/#{attr}")
+          expect(response.body).to be_json_eql(
+            question.send(attr.to_sym).to_json).at_path("question/#{attr}")
         end
       end
 
       it 'contains question schort_title' do
-        expect(response.body).to be_json_eql(question.title.truncate(10).to_json).at_path("question/schort_title")
+        expect(response.body).to be_json_eql(
+          question.title.truncate(10).to_json).at_path("question/schort_title")
       end
 
       context 'answers' do
@@ -102,9 +86,10 @@ describe 'Questions API' do
           expect(response.body).to have_json_size(1).at_path("question/answers")
         end
 
-        %w(id body created_at updated_at user_id).each do |attr|
+        %w(question_id id body created_at updated_at user_id).each do |attr|
           it "contains #{attr}" do
-            expect(response.body).to be_json_eql(answer.send(attr.to_sym).to_json).at_path("question/answers/0/#{attr}")
+            expect(response.body).to be_json_eql(
+              answer.send(attr.to_sym).to_json).at_path("question/answers/0/#{attr}")
           end
         end
       end
@@ -115,12 +100,13 @@ describe 'Questions API' do
         end
 
         it 'contains attachment url' do
-          expect(response.body).to be_json_eql(attachment.file.url.to_json).at_path('question/attachments/0/url')
+          expect(response.body).to be_json_eql(
+            attachment.file.url.to_json).at_path('question/attachments/0/url')
         end
 
-        %w(created_at updated_at attachable_id attachable_type).each do |attr|
+        %w( id file created_at updated_at attachable_id attachable_type).each do |attr|
           it "doesn't contains #{attr}" do
-            expect(response.body).to_not be_json_eql(attachment.send(attr.to_sym).to_json)
+            expect(response.body).to_not have_json_path("question/attachments/#{attr}")
           end
         end
       end
@@ -130,9 +116,10 @@ describe 'Questions API' do
           expect(response.body).to have_json_size(1).at_path("question/attachments")
         end
 
-        %w(created_at updated_at commentable_type commentable_id body user_id).each do |attr|
+        %w(id created_at updated_at commentable_type commentable_id body user_id).each do |attr|
           it "contains #{attr}" do
-            expect(response.body).to be_json_eql(comment.send(attr.to_sym).to_json).at_path("question/comments/0/#{attr}")
+            expect(response.body).to be_json_eql(
+              comment.send(attr.to_sym).to_json).at_path("question/comments/0/#{attr}")
           end
         end
       end
@@ -175,7 +162,8 @@ describe 'Questions API' do
           post "/api/v1/questions",
           params: { question: attributes_for(:question),
                     access_token: access_token.token, format: :json }
-          expect(response.body).to be_json_eql(assigns(:question).send(attr.to_sym).to_json).at_path("question/#{attr}")
+          expect(response.body).to be_json_eql(
+            assigns(:question).send(attr.to_sym).to_json).at_path("question/#{attr}")
         end
       end
     end

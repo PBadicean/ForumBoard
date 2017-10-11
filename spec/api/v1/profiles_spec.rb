@@ -27,13 +27,13 @@ describe 'Profile API' do
 
     %w(id email created_at updated_at admin).each do |attr|
       it "contains #{attr}" do
-        expect(response.body).to be_json_eql(me.send(attr.to_sym).to_json).at_path(attr)
+        expect(response.body).to be_json_eql(me.send(attr.to_sym).to_json).at_path("user/#{attr}")
       end
     end
 
     %w(password encrypted_password).each do |attr|
       it "does not contain #{attr}" do
-        expect(response.body).to_not have_json_path(attr)
+        expect(response.body).to_not have_json_path("user/#{attr}")
       end
     end
   end
@@ -62,16 +62,24 @@ describe 'Profile API' do
         expect(response).to be_success
       end
 
-      it 'have json size 1' do
-        expect(response.body).to have_json_size(2)
-      end
-
       it 'contains all users' do
-        expect(response.body).to be_json_eql(users.to_json)
+        expect(response.body).to have_json_size(2).at_path('users')
       end
 
-      it 'not contains authenticated user' do
-        expect(response.body).to_not be_json_eql(me.to_json)
+      it 'not contains current resource owner' do
+        expect(response.body).to_not have_json_path('users/2')
+      end
+
+      %w(id email created_at updated_at admin).each do |attr|
+        it "contains #{attr}" do
+          expect(response.body).to be_json_eql(users.first.send(attr.to_sym).to_json).at_path("users/0/#{attr}")
+        end
+      end
+
+      %w(password encrypted_password).each do |attr|
+        it "not contains #{attr}" do
+          expect(response.body).to_not have_json_path("users/0/#{attr}")
+        end
       end
     end
   end
