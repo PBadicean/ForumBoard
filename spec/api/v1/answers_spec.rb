@@ -51,7 +51,7 @@ describe 'Answers API' do
             attachment.file.url.to_json).at_path('answer/attachments/0/url')
         end
 
-        %w(created_at updated_at attachable_id attachable_type).each do |attr|
+        %w(id file created_at updated_at attachable_id attachable_type).each do |attr|
           it "doesn't contains #{attr}" do
             expect(response.body).to_not have_json_path("answer/attachments/0/#{attr}")
           end
