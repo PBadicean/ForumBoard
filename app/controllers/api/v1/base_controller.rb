@@ -1,6 +1,6 @@
 class Api::V1::BaseController < ActionController::Base
-  check_authorization
   before_action :doorkeeper_authorize!
+  check_authorization
   respond_to :json
 
   protected

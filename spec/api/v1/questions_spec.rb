@@ -29,7 +29,7 @@ describe 'Questions API' do
         expect(response.body).to have_json_size(2).at_path('questions')
       end
 
-      %w(id body title created_at updated_at user_id).each do |attr|
+      %w(id body title created_at updated_at user_id best_answer).each do |attr|
         it "question object contains #{attr}" do
           expect(response.body).to be_json_eql(question.send(attr.to_sym).to_json).at_path("questions/0/#{attr}")
         end
@@ -172,6 +172,14 @@ describe 'Questions API' do
           expect(response.body).to be_json_eql(
             assigns(:question).send(attr.to_sym).to_json).at_path("question/#{attr}")
         end
+      end
+
+      it 'contains question schort_title' do
+        post "/api/v1/questions",
+        params: { question: attributes_for(:question),
+                  access_token: access_token.token, format: :json }
+        expect(response.body).to be_json_eql(
+          assigns(:question).title.truncate(10).to_json).at_path("question/schort_title")
       end
     end
   end
