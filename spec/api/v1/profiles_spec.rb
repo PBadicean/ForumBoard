@@ -5,8 +5,9 @@ describe 'Profile API' do
     it_behaves_like "API Authenticable"
 
     context 'authorized' do
-      let(:me) { create(:user) }
       let(:access_token) { create(:access_token, resource_owner_id: me.id) }
+      let(:me)           { create(:user) }
+
       before { get '/api/v1/profiles/me', params: { format: :json, access_token: access_token.token } }
 
       it 'returns 200 status' do
@@ -35,9 +36,9 @@ describe 'Profile API' do
     it_behaves_like "API Authenticable"
 
     context 'authorized' do
-      let!(:users) { create_list(:user, 2) }
-      let(:me) { create(:user) }
       let(:access_token) { create(:access_token, resource_owner_id: me.id) }
+      let!(:users)       { create_list(:user, 2) }
+      let(:me)           { create(:user) }
 
       before { get '/api/v1/profiles/', params: { format: :json, access_token: access_token.token } }
 
