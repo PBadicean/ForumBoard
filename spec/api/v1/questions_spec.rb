@@ -76,22 +76,8 @@ describe 'Questions API' do
         end
       end
 
-      context 'attachments' do
-        it 'include in question attachments' do
-          expect(response.body).to have_json_size(1).at_path("question/attachments")
-        end
-
-        it 'contains attachment url' do
-          expect(response.body).to be_json_eql(
-            attachment.file.url.to_json).at_path('question/attachments/0/url')
-        end
-
-        %w( id file created_at updated_at attachable_id attachable_type).each do |attr|
-          it "doesn't contains #{attr}" do
-            expect(response.body).to_not have_json_path("question/attachments/#{attr}")
-          end
-        end
-      end
+      let(:attachable)   { question }
+      it_behaves_like "API Attachable"
 
       context 'comments' do
         it 'include in question attachments' do
