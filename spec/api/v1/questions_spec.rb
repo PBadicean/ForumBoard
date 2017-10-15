@@ -75,22 +75,11 @@ describe 'Questions API' do
           end
         end
       end
-
       let(:attachable)   { question }
       it_behaves_like "API Attachable"
 
-      context 'comments' do
-        it 'include in question attachments' do
-          expect(response.body).to have_json_size(1).at_path("question/attachments")
-        end
-
-        %w(id created_at updated_at commentable_type commentable_id body user_id).each do |attr|
-          it "contains #{attr}" do
-            expect(response.body).to be_json_eql(
-              comment.send(attr.to_sym).to_json).at_path("question/comments/0/#{attr}")
-          end
-        end
-      end
+      let(:commentable)  { question }
+      it_behaves_like "API Commentable"
     end
 
     def do_request(options = {})
