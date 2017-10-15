@@ -3,12 +3,12 @@ require 'rails_helper'
 RSpec.describe AnswersController, type: :controller do
   sign_in_user
 
-  let(:answer) { create(:answer) }
-  let(:question) { create(:question) }
+  let(:answer)         { create(:answer) }
+  let(:question)       { create(:question) }
   let(:answer_of_user) { create(:answer, user: @user, question: question) }
 
   let(:vote_of_author) { create(:vote, votable: answer, user: @user) }
-  let(:vote) { create(:vote, votable: answer) }
+  let(:vote)           { create(:vote, votable: answer) }
 
   let(:other_user_votable) { answer }
   let(:votable)            { answer_of_user }
@@ -136,103 +136,5 @@ RSpec.describe AnswersController, type: :controller do
     end
   end
 
-  # describe 'POST #up_vote' do
-  #   context 'Non-author tries to vote for answer' do
-  #     it 'assigns the requested votable to @votable' do
-  #       post :up_vote, params: { id: answer, format: :json }
-  #       expect(assigns(:votable)).to eq answer
-  #     end
-  #
-  #     it 'saves the new vote for answer' do
-  #       expect do
-  #         post :up_vote, params: { id: answer, format: :json }
-  #       end.to change(answer.votes, :count).by(1)
-  #     end
-  #
-  #     it 'checks that value of vote to equal 1' do
-  #       post :up_vote, params: { id: answer, format: :json }
-  #       expect(assigns(:vote).value).to eq 1
-  #     end
-  #   end
-  #
-  #   context 'Author tries to vote' do
-  #     it 'does not create a new vote' do
-  #       expect do
-  #         post :up_vote, params: { id: answer_of_user, format: :json }
-  #       end.to_not change(answer_of_user.votes, :count)
-  #     end
-  #   end
-  #
-  #   context 'Non-author tries to vote 2 times' do
-  #     it 'does not create a new vote' do
-  #       post :up_vote, params: { id: answer, format: :json }
-  #       expect do
-  #         post :up_vote, params: { id: answer, format: :json }
-  #       end.to_not change(answer.votes, :count)
-  #     end
-  #   end
-  # end
-  #
-  # describe 'POST #down_vote' do
-  #   context 'Non-author tries to vote against answer' do
-  #     it 'assigns the requested votable to @votable' do
-  #       post :down_vote, params: { id: answer, format: :json }
-  #       expect(assigns(:votable)).to eq answer
-  #     end
-  #
-  #     it 'checks that value of vote to equal -1' do
-  #       post :down_vote, params: { id: answer, format: :json }
-  #       expect(assigns(:vote).value).to eq -1
-  #     end
-  #
-  #     it 'saves the new vote for answer' do
-  #       expect do
-  #         post :down_vote, params: { id: answer, format: :json }
-  #       end.to change(answer.votes, :count).by(1)
-  #     end
-  #   end
-  #
-  #   context 'Author tries to vote' do
-  #     it 'does not create a new vote' do
-  #       expect do
-  #         post :down_vote, params: { id: answer_of_user, format: :json }
-  #       end.to_not change(answer_of_user.votes, :count)
-  #     end
-  #   end
-  #
-  #   context 'Non-author tries to vote 2 times' do
-  #     it 'does not create a new vote' do
-  #       post :down_vote, params: { id: answer, format: :json }
-  #       expect do
-  #         post :down_vote, params: { id: answer, format: :json }
-  #       end.to_not change(answer.votes, :count)
-  #     end
-  #   end
-  # end
-  #
-  # describe 'DELETE #revote' do
-  #   let(:vote_of_author) { create(:vote, votable: answer, user: @user) }
-  #   let(:vote) { create(:vote, votable: answer) }
-  #
-  #   context 'Author the vote tries to revote' do
-  #     it 'destroy vote of the hes author' do
-  #       vote_of_author
-  #       expect do
-  #         delete :revote, params: { id: answer, format: :json }
-  #       end.to change(answer.votes, :count).by(-1)
-  #     end
-  #   end
-  #
-  #   context 'Non-author the vote tries revote' do
-  #     it 'destroy vote of the hes author' do
-  #       vote
-  #       expect do
-  #         delete :revote, params: { id: answer, format: :json }
-  #       end.to_not change(answer.votes, :count)
-  #     end
-  #   end
-  # end
-
   it_behaves_like "Voted"
-
 end

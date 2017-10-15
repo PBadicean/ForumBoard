@@ -29,22 +29,8 @@ describe 'Answers API' do
         end
       end
 
-      context 'attachments' do
-        it 'include in answer attachments' do
-          expect(response.body).to have_json_size(1).at_path("answer/attachments")
-        end
-
-        it 'contains attachment url' do
-          expect(response.body).to be_json_eql(
-            attachment.file.url.to_json).at_path('answer/attachments/0/url')
-        end
-
-        %w(id file created_at updated_at attachable_id attachable_type).each do |attr|
-          it "doesn't contains #{attr}" do
-            expect(response.body).to_not have_json_path("answer/attachments/0/#{attr}")
-          end
-        end
-      end
+      let(:attachable)   { answer }
+      it_behaves_like "API Attachable"
 
       context 'comments' do
         it 'include in answer comments' do
