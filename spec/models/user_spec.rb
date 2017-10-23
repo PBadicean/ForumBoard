@@ -92,7 +92,7 @@ RSpec.describe User do
             expect { User.find_for_oauth(auth) }.to change(User, :count).by(1)
           end
 
-          it 'fills email and name for user' do
+          it 'fills email and for user' do
             user = User.find_for_oauth(auth)
             expect(user.email).to eq auth.info.email
           end
@@ -121,7 +121,6 @@ RSpec.describe User do
           it 'generates email for user' do
             user = User.find_for_oauth(auth)
             expect(user.email).to eq "change@me-#{auth.uid}-#{auth.provider}.com"
-            expect(user.name).to eq auth.info.name
           end
 
           it 'creates a new authorization' do

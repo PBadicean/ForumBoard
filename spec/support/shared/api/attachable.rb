@@ -7,8 +7,8 @@ shared_examples_for "API Attachable" do
 
     it 'contains attachment url' do
       expect(response.body).to be_json_eql(
-        attachment.file.url.to_json).at_path("#{
-          attachable.class.name.underscore}/attachments/0/url")
+        attachment.file.url.to_json).at_path("
+          #{attachable.class.name.underscore}/attachments/0/url")
     end
 
     %w(id file created_at updated_at attachable_id attachable_type).each do |attr|
