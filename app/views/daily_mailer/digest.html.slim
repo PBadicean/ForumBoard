@@ -1,4 +1,2 @@
-h1 Все вопросы за последние сутки
-- @questions_today.each do |q|
-  h1 #{q}
-- end
+- @questions_today.each do |question|
+  = question.title
