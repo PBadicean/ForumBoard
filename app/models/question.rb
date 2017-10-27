@@ -5,6 +5,7 @@ class Question < ApplicationRecord
   include Attachable
 
   has_many :answers, dependent: :destroy
+  has_many :subscriptions, dependent: :destroy
 
   belongs_to :user
 
