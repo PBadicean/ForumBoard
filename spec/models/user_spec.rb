@@ -1,10 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe User do
-  it { should have_many :questions }
-  it { should have_many :answers }
   it { should have_many :votes }
-  it { should have_many :comments }
+  it { should have_many(:questions).dependent(:destroy) }
+  it { should have_many(:answers).dependent(:destroy) }
+  it { should have_many(:comments).dependent(:destroy) }
   it { should have_many(:authorizations).dependent(:destroy) }
 
 

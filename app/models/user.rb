@@ -3,9 +3,10 @@ class User < ApplicationRecord
   TEMP_EMAIL_REGEX = /\Achange@me/
 
   has_many :votes
-  has_many :comments
-  has_many :questions
-  has_many :answers
+  has_many :comments, dependent: :destroy
+  has_many :questions, dependent: :destroy
+  has_many :answers, dependent: :destroy
+  has_many :subscriptions, dependent: :destroy
   has_many :authorizations, dependent: :destroy
 
   # Include default devise modules. Others available are:
