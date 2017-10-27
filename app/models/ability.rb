@@ -43,6 +43,10 @@ class Ability
     can :destroy, Attachment do |attachment|
       user.author_of(attachment.attachable)
     end
+
+    can :subscribe, Question do |question|
+      !user.subscribed?(question)
+    end
   end
 
   private

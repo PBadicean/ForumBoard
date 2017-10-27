@@ -6,6 +6,7 @@ RSpec.describe User do
   it { should have_many(:answers).dependent(:destroy) }
   it { should have_many(:comments).dependent(:destroy) }
   it { should have_many(:authorizations).dependent(:destroy) }
+  it { should have_many(:subscriptions).dependent(:destroy) }
 
 
   it { should validate_presence_of :email }
@@ -25,6 +26,25 @@ RSpec.describe User do
     context 'user is not author' do
       it 'must return false' do
         expect(user.author_of(question2)).to be_falsey
+      end
+    end
+  end
+
+  describe '#subscribed?' do
+    let(:user)          { create(:user) }
+    let(:other_user)    { create(:user) }
+    let(:question)      { create(:question) }
+    let!(:subscription) { create(:subscription, user: user, question: question) }
+
+    context 'user has subscriptions' do
+      it 'must return true' do
+        expect(user.subscribed?(question)).to be_truthy
+      end
+    end
+
+    context 'user has not subscriptions' do
+      it 'must return true' do
+        expect(other_user.subscribed?(question)).to be_falsey
       end
     end
   end
