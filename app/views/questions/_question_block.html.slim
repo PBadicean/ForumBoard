@@ -1,6 +1,8 @@
 .question-wrapper data-question-id=question.id
   h3 Заголовок #{question.title}
   p Тело #{question.body}
+  = render 'subscribe', question: question
+  
   .question-rating
     p Рейтинг вопроса #{question.rating}
   = render 'question_comments', question: question

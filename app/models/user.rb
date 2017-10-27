@@ -41,4 +41,8 @@ class User < ApplicationRecord
   def email_verified?
     email !~ TEMP_EMAIL_REGEX
   end
+
+  def subscribed?(question)
+    subscriptions.where(question_id: question.id).any?
+  end
 end

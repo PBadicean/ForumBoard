@@ -18,6 +18,7 @@ Rails.application.routes.draw do
     resources :answers, concerns: %i[votable commentable], shallow: true do
       patch :accept, on: :member
     end
+    resources :subscriptions, only: [:create, :destroy]
   end
 
   namespace :api do
