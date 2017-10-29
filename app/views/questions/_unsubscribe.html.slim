@@ -1,0 +1,6 @@
+- subscription = question.subscriptions.where(question_id: question.id).first
+- if can?(:unsubscribe, question)
+  .unsubscribe
+    = link_to 'Отписаться от вопроса',
+      question_subscription_path(question, subscription),
+      method: :delete, remote: true
