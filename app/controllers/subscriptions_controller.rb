@@ -1,8 +1,8 @@
 class SubscriptionsController < ApplicationController
   load_resource
+  before_action :set_queston
 
   def create
-    @question = Question.find(params[:question_id])
     authorize! :subscribe, @question
     @subscription = @question.subscriptions.create(user: current_user)
     respond_with @subscription
@@ -10,9 +10,11 @@ class SubscriptionsController < ApplicationController
 
 
   def destroy
-    @question = Question.find(params[:question_id])
-    
     authorize! :unsubscribe, @question
     respond_with @subscription.destroy
+  end
+
+  def set_queston
+    @question = Question.find(params[:question_id])
   end
 end
