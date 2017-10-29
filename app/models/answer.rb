@@ -8,14 +8,18 @@ class Answer < ApplicationRecord
   belongs_to :user
 
   validates :body, presence: true
-  after_create :notify
+  after_create :notify_author, :notify_subscribers
 
   def best?
     id == question.best_answer
   end
 
-  def notify
-    NotifyDigestJob.perform_now(self)
+  def notify_author
+    NotifyDigestJob.perform_later(self)
+  end
+
+  def notify_subscribers
+    SubscribeDigestJob.perform_later(self)
   end
 
 end
