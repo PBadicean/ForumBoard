@@ -1,4 +1,5 @@
-- if can?(:subscribe, question)
-  = link_to 'Подписаться на вопрос',
-    question_subscriptions_path(question),
-    method: :post, remote: true
+.subscribe
+  - if can?(:subscribe, question)
+    = link_to 'Подписаться на вопрос',
+      question_subscriptions_path(question),
+      method: :post, remote: true
