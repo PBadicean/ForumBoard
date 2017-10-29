@@ -23,6 +23,9 @@ describe Ability do
     let(:user)     { create :user }
     let(:other)    { create :user }
 
+    let(:question)      { create :question }
+    let(:subscription)  { create :subscription, question: question, user: user }
+
     let(:best_answer)       { create :answer }
     let(:question_with_best){ create :question, best_answer: best_answer.id }
     let(:answer_own_user)   { create :answer, question: (create :question, user: user) }
@@ -76,5 +79,19 @@ describe Ability do
 
     it { should be_able_to :destroy, attachment_own_user, user: user }
     it { should_not be_able_to :destroy, attachment_other_user, user: user }
+
+    it { should be_able_to :subscribe, question, user: user }
+
+    it do
+      subscription
+      should_not be_able_to :subscribe, question, user: user
+    end
+
+    it do
+      subscription
+      should be_able_to :unsubscribe, question, user: user
+    end
+
+    it { should_not be_able_to :unsubscribe, question, user: user }
   end
 end
