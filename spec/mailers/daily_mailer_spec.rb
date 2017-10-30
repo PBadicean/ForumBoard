@@ -11,6 +11,10 @@ RSpec.describe DailyMailer, type: :mailer do
       mail.from.should eq(["from@example.com"])
     end
 
+    it 'sends notification for user email'do
+      expect(mail.to).to eq [user.email]
+    end
+
     it "renders the questions" do
       questions.each do |question|
         expect(mail.body.encoded).to match question.title
