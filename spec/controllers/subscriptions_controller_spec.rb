@@ -8,18 +8,12 @@ RSpec.describe SubscriptionsController, type: :controller do
     context 'Authenticated user can to subscribe' do
       it 'saves subscription in data-base' do
         expect do
-          post :create, params: {
-            subscription: attributes_for(:subscription),
-            question_id: question,
-            format: :js }
+          post :create, params: { question_id: question, format: :js }
         end.to change(question.subscriptions, :count).by(1)
       end
 
       it 'render template create' do
-        post :create, params: {
-          question_id: question,
-          subscription: attributes_for(:subscription),
-          format: :js }
+        post :create, params: { question_id: question, format: :js }
         expect(response).to render_template 'create'
       end
     end

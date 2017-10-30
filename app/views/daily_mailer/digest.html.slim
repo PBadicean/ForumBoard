@@ -1,2 +1,2 @@
 - @questions_today.each do |question|
-  = question.title
+  = link_to question.title, question_url(question)
