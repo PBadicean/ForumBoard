@@ -7,8 +7,8 @@ RSpec.describe DailyMailer, type: :mailer do
     let(:questions) { create_list(:question, 5) }
 
     it "renders the headers" do
-      mail.subject.should eq("Digest")
-      mail.from.should eq(["from@example.com"])
+      expect(mail.subject).to eq("Digest")
+      expect(mail.from).to eq(["from@example.com"])
     end
 
     it 'sends notification for user email'do

@@ -1,0 +1,5 @@
+= form_tag searches_path, url: 'searches', method: :get do
+  = label_tag :query, 'Запрос'
+  = text_field_tag :query
+  = select_tag :section, options_for_select(Search::SECTIONS)
+  = submit_tag 'Искать'
