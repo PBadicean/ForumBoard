@@ -25,15 +25,5 @@ RSpec.describe Answer, type: :model do
       expect(NotifyUserJob).to receive(:perform_later).with(answer).and_call_original
       answer.save!
     end
-
-    it 'call notify after creating' do
-      expect(answer).to receive(:notify).and_call_original
-      answer.save!
-    end
-
-    it 'calls NotifyUserJob' do
-      expect(NotifyUserJob).to receive(:perform_later).with(answer).and_call_original
-      answer.save!
-    end
   end
 end

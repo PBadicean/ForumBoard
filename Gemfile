@@ -59,5 +59,7 @@ gem 'oj'
 gem 'oj_mimic_json'
 gem 'sidekiq'
 gem 'whenever'
+gem 'mysql2'
+gem 'thinking-sphinx'
 
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]

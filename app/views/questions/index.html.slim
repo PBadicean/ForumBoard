@@ -1,4 +1,6 @@
 h1 = 'Все вопросы'
+= link_to 'Поиск', searches_path
+
 h4 = current_user.email if user_signed_in?
 
 .questions-list
