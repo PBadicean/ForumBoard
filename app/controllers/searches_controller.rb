@@ -3,7 +3,7 @@ class SearchesController < ApplicationController
   before_action :set_params
 
   def index
-    @discovered = Search.find(@query, @division) if @query && @division
+    @discovered = Search.find_object(@query, @division) if @query && @division
   end
 
   private

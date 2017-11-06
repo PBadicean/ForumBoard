@@ -1,1 +1,5 @@
 = render 'form'
+- if @discovered
+  - @discovered.each do |object|
+    h4 Результаты поиска
+    = render "#{object.class.name.underscore}", object: object
