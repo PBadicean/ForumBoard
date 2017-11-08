@@ -59,7 +59,7 @@ feature 'User can search', '
       expect(page).to have_content(user.email)
       expect(page).to have_content(answer.body)
       expect(page).to have_content(comment.body)
-      expect(page).to have_content(question.body)
+      expect(page).to have_link(question.body)
     end
   end
 end

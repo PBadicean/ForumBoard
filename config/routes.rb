@@ -34,7 +34,7 @@ Rails.application.routes.draw do
   resources :searches
 
   resources :attachments, only: [:destroy]
-  root "questions#index"
+  root to: "questions#index"
 
   mount ActionCable.server => '/cable'
 

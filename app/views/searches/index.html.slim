@@ -1,5 +1,8 @@
 = render 'form'
 - if @discovered
-  - @discovered.each do |object|
-    h4 Результаты поиска
-    = render "#{object.class.name.underscore}", object: object
+  h4 Результаты поиска
+  - if @discovered.empty?
+    p Ненайдено
+  - else
+    - @discovered.each do |object|
+      = render "#{object.class.name.underscore}", object: object, division: @division
