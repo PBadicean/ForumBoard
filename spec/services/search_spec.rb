@@ -9,7 +9,7 @@ RSpec.describe Search, type: :model do
     end
   end
 
-  describe '#find' do
+  describe '#find_object' do
     context 'when search in some model' do
       %w(Question Answer Comment User).each do |division|
         it 'search object in hes model' do
