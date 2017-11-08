@@ -21,21 +21,21 @@ feature 'User can search', '
       fill_in 'Запрос', with: question.title
       select 'Question', from: 'division'
       click_on 'Искать'
-      expect(page).to have_content(question.title)
+      expect(page).to have_link(question.title)
     end
 
     scenario 'comment in all comments', js: true do
       fill_in 'Запрос', with: comment.body
       select 'Comment', from: 'division'
       click_on 'Искать'
-      expect(page).to have_content(comment.body)
+      expect(page).to have_link(comment.body)
     end
 
     scenario 'answer in all answers', js: true do
       fill_in 'Запрос', with: answer.body
       select 'Answer', from: 'division'
       click_on 'Искать'
-      expect(page).to have_content(answer.body)
+      expect(page).to have_link(answer.body)
     end
 
     scenario 'user in all users', js: true do
@@ -59,7 +59,7 @@ feature 'User can search', '
       expect(page).to have_content(user.email)
       expect(page).to have_content(answer.body)
       expect(page).to have_content(comment.body)
-      expect(page).to have_link(question.body)
+      expect(page).to have_link(question.title)
     end
   end
 end
