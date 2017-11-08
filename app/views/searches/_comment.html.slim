@@ -1,7 +1,6 @@
-p Найден комментарий
-= link_to object.body, "/questions/#{object.commentable_id}"
-
-- if division == 'Answer'
-  = link_to object.commentable.question.title, object.commentable.question
-- else
-  = link_to object.commentable.title, object.commentable
+- if object.commentable.class.to_s == 'Answer'
+  p Найден комментарий к ответу
+  = link_to object.body, object.commentable.question
+- if object.commentable.class.to_s == 'Question'
+  p Найден комментарий к вопросу
+  = link_to object.body, object.commentable
