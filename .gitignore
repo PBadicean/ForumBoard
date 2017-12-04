@@ -18,8 +18,9 @@
 
 .byebug_history
 
-config/database.ynml
+config/database.yml
 .idea
-
+config/thinking_sphinx.yml
 config/*.sphinx.conf
 db/sphinx
+.env
