@@ -36,8 +36,10 @@ Rails.application.configure do
 
   config.active_record.dump_schema_after_migration = false
 
-  config.action_mailer.default_url_options = { host: '185.143.172.142' }
+  config.action_mailer.default_url_options = { host: '185.143.172.213' }
 
   config.action_mailer.delivery_method = :sendmail
-  config.action_mailer.smtp_settings = { address: '185.143.172.142', port: 25 }
+  config.action_mailer.smtp_settings = { address: '185.143.172.213', port: 25 }
+
+  config.action_cable.allowed_request_origins = ["http://185.143.172.213"]
 end
