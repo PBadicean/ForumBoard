@@ -16,3 +16,11 @@ append :linked_dirs, "log", "tmp/pids", "tmp/cache",
                      "tmp/sockets", "vendor/bundle",
                      "public/system", "public/uploads"
 set :passenger_restart_with_touch, true
+
+after 'deploy:publishing', 'deploy:restart'
+
+namespace :deploy do
+  task :restart do
+    invoke 'unicorn:restart'
+  end
+end

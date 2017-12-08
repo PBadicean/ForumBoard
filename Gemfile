@@ -37,8 +37,8 @@ group :development do
   gem 'capistrano-bundler', require: false
   gem 'capistrano-rails', require: false
   gem 'capistrano-rvm', require: false
-  gem 'capistrano-passenger', require: false
   gem 'capistrano-sidekiq', require: false
+  gem 'capistrano3-unicorn', require: false
 end
 
 group :test do
@@ -47,6 +47,7 @@ group :test do
   gem 'json_spec'
 end
 
+gem 'unicorn'
 gem 'active_model_serializers', '~> 0.9.3'
 gem 'skim'
 gem 'sprockets', '>= 3.7.0'
@@ -69,5 +70,5 @@ gem 'sidekiq'
 gem 'whenever'
 gem 'mysql2'
 gem 'thinking-sphinx', '3.3.0'
-gem "redis", "~> 3.0" 
+gem "redis", "~> 3.0"
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
