@@ -1,7 +1,8 @@
-= render 'question_block', question: @question
-h3 Ответы
-.answers
-  = render @question.answers_by_best
+- cache @question do
+  = render 'question_block', question: @question
+  h3 Ответы
+  .answers
+    = render @question.answers_by_best
 - if user_signed_in?
   .new-answer
     = render 'answers/form', path:[ @question, @question.answers.build ]
