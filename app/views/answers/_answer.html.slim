@@ -1,26 +1,27 @@
 - if answer.persisted?
-  .answer-wrapper data-answer-id=answer.id
-    = answer.body
-    .answer-rating data-id=answer.id
-      p Рейтинг ответа #{answer.rating}
+  - cache answer do
+    .answer-wrapper data-answer-id=answer.id
+      = answer.body
+      .answer-rating data-id=answer.id
+        p Рейтинг ответа #{answer.rating}
 
-    = render 'answers/answer_comments', answer: answer
-    = render 'comments/form', commentable: answer, comment: answer.comments.build
-    = render 'answers/vote', answer: answer, question: answer.question
-    = render 'answers/attachments', answer: answer
+      = render 'answers/answer_comments', answer: answer
+      = render 'comments/form', commentable: answer, comment: answer.comments.build
+      = render 'answers/vote', answer: answer, question: answer.question
+      = render 'answers/attachments', answer: answer
 
-    - if can?(:accept, answer)
-      = link_to 'Это лучший',
-        accept_answer_path(answer),
-        method: :patch,
-        remote: true
+      - if can?(:accept, answer)
+        = link_to 'Это лучший',
+          accept_answer_path(answer),
+          method: :patch,
+          remote: true
 
-    - if can?(:destroy, answer)
-      = link_to "Удалить ответ",
-        answer_path(answer),
-        method: :delete,
-        remote: true
+      - if can?(:destroy, answer)
+        = link_to "Удалить ответ",
+          answer_path(answer),
+          method: :delete,
+          remote: true
 
-    - if can?(:update, answer)
-      = link_to 'Редактировать', '', class: 'edit-answer-link'
-      = render 'answers/form', path: [answer]
+      - if can?(:update, answer)
+        = link_to 'Редактировать', '', class: 'edit-answer-link'
+        = render 'answers/form', path: [answer]
